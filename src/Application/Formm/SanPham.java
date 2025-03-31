@@ -41,7 +41,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Admin
  */
 public class SanPham extends javax.swing.JPanel {
-    
+
     private SanPhamRepo repoSP;
     private int selectedIdSP = -1;
     private KichThuocRepo repoKT = new KichThuocRepo();
@@ -49,16 +49,21 @@ public class SanPham extends javax.swing.JPanel {
     private MauSacRepo repoMS = new MauSacRepo();
     private ThuongHieuRepo repoTH = new ThuongHieuRepo();
     private XuatXuRepo repoXX = new XuatXuRepo();
-    
+
     public SanPham() {
         this.repoSP = new SanPhamRepo();
         initComponents();
         txtID.setEditable(false);
         txtMaSP.setEditable(false);
+        loadComboBoxChatLieu(null);
+        loadComboBoxKichThuoc(null);
+        loadComboBoxMauXac(null);
+        loadComboBoxThuongHieu(null);
+        loadComboBoxXuatXu(null);
         loadTable();
         loadTableNghi();
     }
-    
+
     public void xoaForm() {
         txtTenSP.setText("");
         txtSoLuong.setText("");
@@ -80,7 +85,7 @@ public class SanPham extends javax.swing.JPanel {
         // Bỏ chọn dòng trong bảng nếu có
         tblSP.clearSelection();
     }
-    
+
     private void loadComboBoxChatLieu(String chatLieu) {
         cbbChatLieu.removeAllItems(); // Xóa hết dữ liệu cũ
         List<Model.ChatLieu> listCL = repoCL.getAll(); // Lấy danh sách chất liệu từ database
@@ -88,9 +93,13 @@ public class SanPham extends javax.swing.JPanel {
         for (ChatLieu cl : listCL) {
             cbbChatLieu.addItem(cl.getTenCL()); // Thêm từng chất liệu vào ComboBox
         }
-        cbbChatLieu.setSelectedItem(chatLieu);
+        if (chatLieu == null && !listCL.isEmpty()) {
+            cbbChatLieu.setSelectedIndex(0);
+        } else {
+            cbbChatLieu.setSelectedItem(chatLieu);
+        }
     }
-    
+
     private void loadComboBoxKichThuoc(String kichThuoc) {
         cbbKichThuoc.removeAllItems(); // Xóa hết dữ liệu cũ
         List<Model.KichThuoc> listKT = repoKT.getAll(); // Lấy danh sách chất liệu từ database
@@ -98,9 +107,13 @@ public class SanPham extends javax.swing.JPanel {
         for (KichThuoc cl : listKT) {
             cbbKichThuoc.addItem(cl.getTenKT()); // Thêm từng chất liệu vào ComboBox
         }
-        cbbKichThuoc.setSelectedItem(kichThuoc);
+        if (kichThuoc == null && !listKT.isEmpty()) {
+            cbbKichThuoc.setSelectedIndex(0);
+        } else {
+            cbbKichThuoc.setSelectedItem(kichThuoc);
+        }
     }
-    
+
     private void loadComboBoxMauXac(String mauXac) {
         cbbMauSac.removeAllItems(); // Xóa hết dữ liệu cũ
         List<Model.MauSac> listKT = repoMS.getAll(); // Lấy danh sách chất liệu từ database
@@ -108,9 +121,13 @@ public class SanPham extends javax.swing.JPanel {
         for (MauSac cl : listKT) {
             cbbMauSac.addItem(cl.getTenMau()); // Thêm từng chất liệu vào ComboBox
         }
-        cbbMauSac.setSelectedItem(mauXac);
+        if (mauXac == null && !listKT.isEmpty()) {
+            cbbMauSac.setSelectedIndex(0);
+        } else {
+            cbbMauSac.setSelectedItem(mauXac);
+        }
     }
-    
+
     private void loadComboBoxThuongHieu(String thuongHieu) {
         cbbThuongHieu.removeAllItems(); // Xóa hết dữ liệu cũ
         List<Model.ThuongHieu> listKT = repoTH.getAll(); // Lấy danh sách chất liệu từ database
@@ -118,9 +135,13 @@ public class SanPham extends javax.swing.JPanel {
         for (ThuongHieu cl : listKT) {
             cbbThuongHieu.addItem(cl.getTenTH()); // Thêm từng chất liệu vào ComboBox
         }
-        cbbThuongHieu.setSelectedItem(thuongHieu);
+        if (thuongHieu == null && !listKT.isEmpty()) {
+            cbbThuongHieu.setSelectedIndex(0);
+        } else {
+            cbbThuongHieu.setSelectedItem(thuongHieu);
+        }
     }
-    
+
     private void loadComboBoxXuatXu(String xuatXu) {
         cbbXuatXu.removeAllItems(); // Xóa hết dữ liệu cũ
         List<Model.XuatXu> listKT = repoXX.getAll(); // Lấy danh sách chất liệu từ database
@@ -128,9 +149,13 @@ public class SanPham extends javax.swing.JPanel {
         for (XuatXu cl : listKT) {
             cbbXuatXu.addItem(cl.getTenXX()); // Thêm từng chất liệu vào ComboBox
         }
-        cbbXuatXu.setSelectedItem(xuatXu);
+        if (xuatXu == null && !listKT.isEmpty()) {
+            cbbXuatXu.setSelectedIndex(0);
+        } else {
+            cbbXuatXu.setSelectedItem(xuatXu);
+        }
     }
-    
+
     public void loadTable() {
         DefaultTableModel model = (DefaultTableModel) this.tblSP.getModel();
         model.setRowCount(0);
@@ -154,7 +179,7 @@ public class SanPham extends javax.swing.JPanel {
             model.addRow(rowData);
         }
     }
-    
+
     public void updateloadTable(String keyword) {
         DefaultTableModel model = (DefaultTableModel) this.tblSP.getModel();
         model.setRowCount(0);
@@ -202,7 +227,7 @@ public class SanPham extends javax.swing.JPanel {
             model.addRow(rowData);
         }
     }
-    
+
     public void updateloadTableNghi(String keyword) {
         DefaultTableModel model = (DefaultTableModel) this.tblSPNgungBan.getModel();
         model.setRowCount(0);
@@ -226,7 +251,7 @@ public class SanPham extends javax.swing.JPanel {
             model.addRow(rowData);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -467,14 +492,6 @@ public class SanPham extends javax.swing.JPanel {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(btnThemSP, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(77, 77, 77)
-                                                .addComponent(btnSuaSp, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(101, 101, 101)
-                                                .addComponent(btnXoaSP, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                            .addComponent(btnThemChatLieu)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(btnThemMauSac)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(jLabel13)
@@ -489,7 +506,17 @@ public class SanPham extends javax.swing.JPanel {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(btnThemThuongHieu)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
-                                                .addComponent(jLabel9)))
+                                                .addComponent(jLabel9))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                                        .addComponent(btnThemSP, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(77, 77, 77)
+                                                        .addComponent(btnSuaSp, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(101, 101, 101)
+                                                        .addComponent(btnXoaSP, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addComponent(btnThemChatLieu))
+                                                .addGap(0, 0, Short.MAX_VALUE)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -764,7 +791,7 @@ public class SanPham extends javax.swing.JPanel {
         if ("date".equals(evt.getPropertyName())) { // Kiểm tra nếu giá trị ngày thay đổi
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date selectedDate = dateNgayTaoSP.getDate();
-            
+
             if (selectedDate != null) {
                 String ngayBatDau = sdf.format(selectedDate);
                 txtNgayTao.setText(ngayBatDau); // Gán ngày vào JTextField
@@ -812,7 +839,7 @@ public class SanPham extends javax.swing.JPanel {
             loadComboBoxMauXac(mauSac);
             loadComboBoxKichThuoc(kichThuoc);
             loadComboBoxChatLieu(chatLieu);
-            
+
         }
     }//GEN-LAST:event_tblSPMouseClicked
 
@@ -827,7 +854,7 @@ public class SanPham extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần sửa!");
                 return;
             }
-            
+
             int id = Integer.parseInt(tblSP.getValueAt(chonRow, 0).toString());
 
             // ================= LẤY DỮ LIỆU TỪ FORM =================
@@ -861,7 +888,7 @@ public class SanPham extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin sản phẩm!");
                 return;
             }
-            
+
             int soLuongTon;
             try {
                 soLuongTon = Integer.parseInt(txtSoLuong.getText().trim());
@@ -909,7 +936,7 @@ public class SanPham extends javax.swing.JPanel {
             // Load lại danh sách sản phẩm
             loadTable();
             xoaForm();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi cập nhật sản phẩm! Vui lòng kiểm tra lại.");
@@ -919,7 +946,7 @@ public class SanPham extends javax.swing.JPanel {
 
     private void btnThemSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemSPMouseClicked
         try {
-            
+
             String tenSanPham = txtTenSP.getText().trim();
             String moTa = txtMoTa.getText().trim();
             String ngayTaoDate = txtNgayTao.getText().trim();
@@ -950,7 +977,7 @@ public class SanPham extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin sản phẩm!");
                 return;
             }
-            
+
             int soLuongTon;
             try {
                 soLuongTon = Integer.parseInt(txtSoLuong.getText().trim());
@@ -998,7 +1025,7 @@ public class SanPham extends javax.swing.JPanel {
             // Load lại danh sách sản phẩm
             loadTable();
             xoaForm();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi cập nhật sản phẩm! Vui lòng kiểm tra lại.");
@@ -1027,7 +1054,7 @@ public class SanPham extends javax.swing.JPanel {
             int confirm = JOptionPane.showConfirmDialog(this,
                     "Bạn có chắc chắn muốn xóa sản phẩm này?",
                     "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-            
+
             if (confirm != JOptionPane.YES_OPTION) {
                 return;
             }
@@ -1060,9 +1087,9 @@ public class SanPham extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần khôi phục!");
             return;
         }
-        
+
         int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn khôi phục sản phẩm này?", "Xác nhận", JOptionPane.YES_NO_OPTION);
-        
+
         if (confirm == JOptionPane.YES_OPTION) {
             if (repoSP.khoiPhuc(selectedIdSP)) {
                 JOptionPane.showMessageDialog(this, "Khôi phục sản phẩm thành công!");
@@ -1080,9 +1107,9 @@ public class SanPham extends javax.swing.JPanel {
     }//GEN-LAST:event_txtTimSPKetThucKeyReleased
 
     private void tblSPNgungBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSPNgungBanMouseClicked
-      int selectedRow = tblSPNgungBan.getSelectedRow();
+        int selectedRow = tblSPNgungBan.getSelectedRow();
         if (selectedRow != -1) {
-            selectedIdSP = (int) tblSPNgungBan.getValueAt(selectedRow, 0); 
+            selectedIdSP = (int) tblSPNgungBan.getValueAt(selectedRow, 0);
         }
     }//GEN-LAST:event_tblSPNgungBanMouseClicked
 
@@ -1091,7 +1118,7 @@ public class SanPham extends javax.swing.JPanel {
     }//GEN-LAST:event_tbnLoadMouseClicked
 
     private void btnLoadNghiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadNghiMouseClicked
-       loadTableNghi();
+        loadTableNghi();
     }//GEN-LAST:event_btnLoadNghiMouseClicked
 
 

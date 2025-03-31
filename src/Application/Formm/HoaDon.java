@@ -4,9 +4,12 @@
  */
 package Application.Formm;
 
+import Repository.HoaDonRepo;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.Date;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -14,13 +17,30 @@ import java.util.Date;
  */
 public class HoaDon extends javax.swing.JPanel {
 
+    private HoaDonRepo repohd = new HoaDonRepo();
+
     /**
      * Creates new form HoaDon
      */
     public HoaDon() {
         initComponents();
-          
-         
+        loadTable();
+    }
+
+    public void loadTable() {
+        List<Model.HoaDon> listhd = this.repohd.getAllHoaDon();
+        DefaultTableModel model = (DefaultTableModel) tblHoaDon.getModel();
+        model.setRowCount(0);
+        for (Model.HoaDon hoaDon : listhd) {
+            model.addRow(new Object[]{
+                hoaDon.getMaHoaDon(),
+                hoaDon.getIdNhanVien(),
+                hoaDon.getIdKhachHang(),
+                hoaDon.getNgayThanhToan(),
+                hoaDon.getTongGia(),
+                hoaDon.getTrangThai()
+            });
+        }
     }
 
     HoaDon(Date date, String chờ_thanh_toán) {
@@ -56,7 +76,7 @@ public class HoaDon extends javax.swing.JPanel {
 
             },
             new String [] {
-                "STT", "MaHD", "MaNV", "MaKH", "NgayTT", "Tong Tien", "Trạng Thái", "Thanh Tien"
+                "STT", "MaHD", "MaNV", "MaKH", "NgayTT", "Tong Tien", "Trạng Thái"
             }
         ));
         jScrollPane1.setViewportView(tblHoaDon);

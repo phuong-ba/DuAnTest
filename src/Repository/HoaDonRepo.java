@@ -17,7 +17,7 @@ public class HoaDonRepo {
     public List<HoaDon> getAllHoaDon() {
         List<HoaDon> hoaDonList = new ArrayList<>();
         String sql = """
-            SELECT hd.ID_Hoa_Don, hd.Ma_Hoa_Don, nv.Ma_Nhan_Vien, kh.Ma_Khach_Hang, hd.Ngay_Thanh_Toan, hd.Tong_Gia_SP, hd.Trang_Thai,
+            SELECT hd.ID_Hoa_Don, hd.Ma_Hoa_Don, nv.ID_Nhan_Vien, kh.ID_Khach_Hang, hd.Ngay_Thanh_Toan, hd.Tong_Gia_SP, hd.Trang_Thai,
                    hd.Hinh_Thuc_Thanh_Toan, hd.SDT, hd.Dia_Chi, pt.ID_Thanh_Toan
             FROM Hoa_Don hd
             LEFT JOIN Nhan_Vien nv ON hd.ID_Nhan_Vien = nv.ID_Nhan_Vien
@@ -37,8 +37,8 @@ public class HoaDonRepo {
                 hoaDon.setHinhThucThanhToan(rs.getString("Hinh_Thuc_Thanh_Toan"));
                 hoaDon.setSdt(rs.getString("SDT"));
                 hoaDon.setDiaChi(rs.getString("Dia_Chi"));
-                hoaDon.setIdKhachHang(rs.getInt("MaKH"));
-                hoaDon.setIdNhanVien(rs.getInt("Ma_Nhan_Vien"));
+                hoaDon.setIdKhachHang(rs.getInt("ID_Khach_Hang"));
+                hoaDon.setIdNhanVien(rs.getInt("ID_Nhan_Vien"));
                 hoaDon.setIdPhuongThucThanhToan(rs.getInt("ID_Thanh_Toan"));
 
                 hoaDonList.add(hoaDon);
