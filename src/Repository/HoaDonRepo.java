@@ -17,29 +17,29 @@ public class HoaDonRepo {
     public List<HoaDon> getAllHoaDon() {
         List<HoaDon> hoaDonList = new ArrayList<>();
         String sql = """
-            SELECT hd.ID, hd.MaHD, nv.MaNV, kh.MaKH, hd.NgayTT, hd.TongTien, hd.TrangThai,
-                   hd.HinhThucThanhToan, hd.SDT, hd.DiaChi, pt.MaPhuongThucThanhToan
-            FROM HoaDon hd
-            LEFT JOIN NhanVien nv ON hd.MaNV = nv.MaNV
-            LEFT JOIN KhachHang kh ON hd.MaKH = kh.MaKH
-            LEFT JOIN PhuongThucThanhToan pt ON hd.MaPhuongThucThanhToan = pt.MaPhuongThucThanhToan;
+            SELECT hd.ID_Hoa_Don, hd.Ma_Hoa_Don, nv.Ma_Nhan_Vien, kh.Ma_Khach_Hang, hd.Ngay_Thanh_Toan, hd.Tong_Gia_SP, hd.Trang_Thai,
+                   hd.Hinh_Thuc_Thanh_Toan, hd.SDT, hd.Dia_Chi, pt.ID_Thanh_Toan
+            FROM Hoa_Don hd
+            LEFT JOIN Nhan_Vien nv ON hd.ID_Nhan_Vien = nv.ID_Nhan_Vien
+            LEFT JOIN Khach_Hang kh ON hd.ID_Khach_Hang = kh.ID_Khach_Hang
+            LEFT JOIN Phuong_Thuc_Thanh_Toan pt ON hd.ID_Thanh_Toan = pt.ID_Thanh_Toan;
         """;
 
         try ( Connection conn = Dbconnect.getConnection();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 HoaDon hoaDon = new HoaDon();
-                hoaDon.setIdHoaDon(rs.getInt("ID"));
-                hoaDon.setMaHoaDon(rs.getString("MaHD"));
-                hoaDon.setNgayThanhToan(rs.getDate("NgayTT"));
-                hoaDon.setTongGia(rs.getBigDecimal("TongTien"));
-                hoaDon.setTrangThai(rs.getBoolean("TrangThai"));
-                hoaDon.setHinhThucThanhToan(rs.getString("HinhThucThanhToan"));
+                hoaDon.setIdHoaDon(rs.getInt("ID_Hoa_Don"));
+                hoaDon.setMaHoaDon(rs.getString("Ma_Hoa_Don"));
+                hoaDon.setNgayThanhToan(rs.getDate("Ngay_Thanh_Toan"));
+                hoaDon.setTongGia(rs.getBigDecimal("Tong_Gia_SP"));
+                hoaDon.setTrangThai(rs.getBoolean("Trang_Thai"));
+                hoaDon.setHinhThucThanhToan(rs.getString("Hinh_Thuc_Thanh_Toan"));
                 hoaDon.setSdt(rs.getString("SDT"));
-                hoaDon.setDiaChi(rs.getString("DiaChi"));
+                hoaDon.setDiaChi(rs.getString("Dia_Chi"));
                 hoaDon.setIdKhachHang(rs.getInt("MaKH"));
-                hoaDon.setIdNhanVien(rs.getInt("MaNV"));
-                hoaDon.setIdPhuongThucThanhToan(rs.getInt("MaPhuongThucThanhToan"));
+                hoaDon.setIdNhanVien(rs.getInt("Ma_Nhan_Vien"));
+                hoaDon.setIdPhuongThucThanhToan(rs.getInt("ID_Thanh_Toan"));
 
                 hoaDonList.add(hoaDon);
             }
@@ -98,8 +98,7 @@ public class HoaDonRepo {
         // Viết câu truy vấn lọc hóa đơn theo năm, ví dụ:
         String query = "SELECT * FROM Hoa_Don WHERE YEAR(Ngay_Thanh_Toan) = ?";
 
-        try ( Connection con = Dbconnect.getConnection();  
-            PreparedStatement pst = con.prepareStatement(query)) {
+        try ( Connection con = Dbconnect.getConnection();  PreparedStatement pst = con.prepareStatement(query)) {
             pst.setString(1, year);
             ResultSet rs = pst.executeQuery();
 
@@ -146,5 +145,9 @@ public class HoaDonRepo {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public void themHoaDon(Application.Formm.HoaDon currentHoaDon) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

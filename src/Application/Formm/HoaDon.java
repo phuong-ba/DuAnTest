@@ -6,6 +6,7 @@ package Application.Formm;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.Date;
 
 /**
  *
@@ -20,6 +21,10 @@ public class HoaDon extends javax.swing.JPanel {
         initComponents();
           
          
+    }
+
+    HoaDon(Date date, String chờ_thanh_toán) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
@@ -134,4 +139,8 @@ public class HoaDon extends javax.swing.JPanel {
     private javax.swing.JButton txtHDLamMoi;
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
+
+    void setTrangThai(String đã_thanh_toán) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
