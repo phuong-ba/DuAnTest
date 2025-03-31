@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author Admin
  */
-public class GiamGia {
+public class GiamGiaModel {
     private int id;
     private String maGiamGia;
     private String tenChuongTrinh;
@@ -20,16 +20,16 @@ public class GiamGia {
     private Date ngayBatDau;
     private Date ngayKetThuc;
     private Integer soLuong;
-    private String kieuGiam;
+    private Boolean kieuGiam;
     private BigDecimal giaTriDHToiThieu;
     private BigDecimal mucGiaGiam;
     private BigDecimal mucGiaGiamToiDa;
     private Boolean trangThai;
 
-    public GiamGia() {
+    public GiamGiaModel() {
     }
 
-    public GiamGia(int id, String maGiamGia, String tenChuongTrinh, String moTa, Date ngayTao, Date ngayBatDau, Date ngayKetThuc, Integer soLuong, String kieuGiam, BigDecimal giaTriDHToiThieu, BigDecimal mucGiaGiam, BigDecimal mucGiaGiamToiDa, Boolean trangThai) {
+    public GiamGiaModel(int id, String maGiamGia, String tenChuongTrinh, String moTa, Date ngayTao, Date ngayBatDau, Date ngayKetThuc, Integer soLuong, Boolean kieuGiam, BigDecimal giaTriDHToiThieu, BigDecimal mucGiaGiam, BigDecimal mucGiaGiamToiDa, Boolean trangThai) {
         this.id = id;
         this.maGiamGia = maGiamGia;
         this.tenChuongTrinh = tenChuongTrinh;
@@ -45,6 +45,21 @@ public class GiamGia {
         this.trangThai = trangThai;
     }
 
+   
+
+    public GiamGiaModel(String tenChuongTrinh, Date ngayTao, Date ngayBatDau, Date ngayKetThuc, Integer soLuong, Boolean kieuGiam, BigDecimal giaTriDHToiThieu, BigDecimal mucGiaGiam, BigDecimal mucGiaGiamToiDa, Boolean trangThai) {
+        this.tenChuongTrinh = tenChuongTrinh;
+        this.ngayTao = ngayTao;
+        this.ngayBatDau = ngayBatDau;
+        this.ngayKetThuc = ngayKetThuc;
+        this.soLuong = soLuong;
+        this.kieuGiam = kieuGiam;
+        this.giaTriDHToiThieu = giaTriDHToiThieu;
+        this.mucGiaGiam = mucGiaGiam;
+        this.mucGiaGiamToiDa = mucGiaGiamToiDa;
+        this.trangThai = trangThai;
+    }
+   
     public int getId() {
         return id;
     }
@@ -109,11 +124,11 @@ public class GiamGia {
         this.soLuong = soLuong;
     }
 
-    public String getKieuGiam() {
+    public Boolean getKieuGiam() {
         return kieuGiam;
     }
 
-    public void setKieuGiam(String kieuGiam) {
+    public void setKieuGiam(Boolean kieuGiam) {
         this.kieuGiam = kieuGiam;
     }
 
@@ -149,5 +164,8 @@ public class GiamGia {
         this.trangThai = trangThai;
     }
 
+   
+
+    
    
 }

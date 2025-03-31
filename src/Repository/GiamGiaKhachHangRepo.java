@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import duantest.DBConnect.Dbconnect;
 import Model.GiamGiaKhachHang;
-import Model.GiamGia;
+import Model.GiamGiaModel;
 
 public class GiamGiaKhachHangRepo {
 

@@ -6,7 +6,7 @@ package Menu;
 
 import Application.Formm.BanHang;
 import Application.formLogin.Login;
-import Model.GiamGia;
+import Model.GiamGiaModel;
 import Model.HoaDon;
 import java.awt.BorderLayout;
 import java.awt.Dimension;

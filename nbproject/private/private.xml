@@ -3,11 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/P:/DuAnTest/src/Repository/GiamGiaKhachHangRepo.java</file>
             <file>file:/P:/DuAnTest/src/Application/Formm/HoaDon.java</file>
-            <file>file:/P:/DuAnTest/src/Application/Formm/GiamGia.java</file>
             <file>file:/P:/DuAnTest/src/Application/Formm/ThongKe.java</file>
+            <file>file:/P:/DuAnTest/src/Application/Formm/GiamGia.java</file>
+            <file>file:/P:/DuAnTest/src/Model/GiamGiaModel.java</file>
+            <file>file:/P:/DuAnTest/src/Application/Formm/KhachHang.java</file>
             <file>file:/P:/DuAnTest/src/Application/Formm/BanHang.java</file>
+            <file>file:/P:/DuAnTest/src/Repository/GiamGiaRepo.java</file>
             <file>file:/P:/DuAnTest/src/Application/Formm/SanPham.java</file>
+            <file>file:/P:/DuAnTest/src/Model/GiamGiaKhachHang.java</file>
+            <file>file:/P:/DuAnTest/src/Application/Formm/NhanVien.java</file>
         </group>
     </open-files>
 </project-private>
