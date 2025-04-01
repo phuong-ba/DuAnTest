@@ -58,6 +58,8 @@ public class NhanVien extends javax.swing.JPanel {
                 nv.getNgayKetThucNV(),};
             model.addRow(rowData);
         }
+        rdoLam.setSelected(true);
+        rdoNam.setSelected(true);
     }
 
     public void xoaFrom() {
@@ -97,9 +99,10 @@ public class NhanVien extends javax.swing.JPanel {
                 nv.getNgayBatDauNV(),
                 nv.getNgayKetThucNV(),});
         }
+
     }
 
-    private void updateTableNhanVienNghiViec(String keyword,String gioiTinh) {
+    private void updateTableNhanVienNghiViec(String keyword, String gioiTinh) {
         DefaultTableModel model = (DefaultTableModel) tblNghiViec.getModel();
         model.setRowCount(0); // Xóa dữ liệu cũ
 
@@ -120,6 +123,7 @@ public class NhanVien extends javax.swing.JPanel {
                 nv.getNgayBatDauNV(),
                 nv.getNgayKetThucNV(),});
         }
+
     }
 
     public void loadTableNghiViec() {
@@ -144,6 +148,8 @@ public class NhanVien extends javax.swing.JPanel {
                 nv.getNgayKetThucNV(),};
             model.addRow(rowData);
         }
+        rdoLam.setSelected(true);
+        rdoNam.setSelected(true);
     }
 
     /**

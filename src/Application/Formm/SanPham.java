@@ -178,6 +178,7 @@ public class SanPham extends javax.swing.JPanel {
                 sanPham.getTrangThai() ? "Còn SP" : "Hết SP",};
             model.addRow(rowData);
         }
+        rdoConSP.setSelected(true);
     }
 
     public void updateloadTable(String keyword) {
@@ -226,6 +227,7 @@ public class SanPham extends javax.swing.JPanel {
                 sanPham.getTrangThai() ? "Còn SP" : "Hết SP",};
             model.addRow(rowData);
         }
+        rdoConSP.setSelected(true);
     }
 
     public void updateloadTableNghi(String keyword) {
@@ -640,7 +642,7 @@ public class SanPham extends javax.swing.JPanel {
                                 .addComponent(btnThemSP)
                                 .addComponent(btnLamMoiSP))
                             .addComponent(btnXoaSP))))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(219, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Sản Phẩm", jPanel1);
@@ -721,7 +723,7 @@ public class SanPham extends javax.swing.JPanel {
                     .addComponent(btnLoadNghi))
                 .addGap(37, 37, 37)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(256, Short.MAX_VALUE))
+                .addContainerGap(407, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ngừng Bán", jPanel2);
@@ -734,7 +736,7 @@ public class SanPham extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
