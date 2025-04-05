@@ -25,27 +25,43 @@ public class HoaDon extends javax.swing.JPanel {
     public HoaDon() {
         initComponents();
         loadTable();
+        HoaDonChiTietable();
     }
 
     public void loadTable() {
-        List<Model.HoaDon> listhd = this.repohd.getAllHoaDon();
+        List<Model.HoaDonModel> listhd = this.repohd.getAllHoaDon();
         DefaultTableModel model = (DefaultTableModel) tblHoaDon.getModel();
         model.setRowCount(0);
-        for (Model.HoaDon hoaDon : listhd) {
+        for (Model.HoaDonModel hoaDon : listhd) {
             model.addRow(new Object[]{
+                hoaDon.getIdHoaDon(),
                 hoaDon.getMaHoaDon(),
-                hoaDon.getIdNhanVien(),
-                hoaDon.getIdKhachHang(),
+                hoaDon.getMaNhanVien(),
+                hoaDon.getMaKhachHang(),
                 hoaDon.getNgayThanhToan(),
                 hoaDon.getTongGia(),
-                hoaDon.getTrangThai()
+                hoaDon.getTrangThai(),
+                hoaDon.getLoaiThanhToan()
+            });
+        }
+    }
+    public void HoaDonChiTietable() {
+        List<Model.HoaDonChiTiet> listhd = this.repohd.getAllHoaDonChiTiet();
+        DefaultTableModel model = (DefaultTableModel) tblHDCT.getModel();
+        model.setRowCount(0);
+        for (Model.HoaDonChiTiet hoaDon : listhd) {
+            model.addRow(new Object[]{
+                hoaDon.getIdHoaDon(),
+                hoaDon.getMaHoaDon(),
+                hoaDon.getMaSanPham(),
+                hoaDon.getTenSanPham(),
+                hoaDon.getGiaBan(),
+                hoaDon.getSoLuong(),
+                hoaDon.getThanhTien()  
             });
         }
     }
 
-    HoaDon(Date date, String chờ_thanh_toán) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -76,7 +92,7 @@ public class HoaDon extends javax.swing.JPanel {
 
             },
             new String [] {
-                "STT", "MaHD", "MaNV", "MaKH", "NgayTT", "Tong Tien", "Trạng Thái"
+                "STT", "MaHD", "MaNV", "MaKH", "NgayTT", "Tong Tien", "Trạng Thái", "HT Thanh Toán"
             }
         ));
         jScrollPane1.setViewportView(tblHoaDon);
@@ -90,7 +106,7 @@ public class HoaDon extends javax.swing.JPanel {
 
             },
             new String [] {
-                "STT", "MaSP", "TenSP", "Đơn Giá", "Số Lượng ", "Tổng Tiền"
+                "STT", "MaHD", "MaSP", "TênSP", "Đơn Giá", "Số Lượng", "Tổng Tiền"
             }
         ));
         jScrollPane2.setViewportView(tblHDCT);
@@ -102,18 +118,20 @@ public class HoaDon extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(132, 132, 132)
-                        .addComponent(txtHDLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3)
-                        .addComponent(jScrollPane2)))
-                .addContainerGap(40, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(132, 132, 132)
+                                .addComponent(txtHDLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(0, 229, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

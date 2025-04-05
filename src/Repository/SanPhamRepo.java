@@ -261,5 +261,22 @@ public class SanPhamRepo {
         }
         return false;
     }
+    
+   public boolean updateSoLuongGioHang(int id, int soNew) {
+    String sql = "UPDATE San_Pham SET So_Luong_Ton = ? WHERE ID_San_Pham = ?";
+    try (Connection con = Dbconnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        // Thiết lập tham số cho số lượng mới
+        ps.setInt(1, soNew); // Đây là số lượng mới sau khi trừ số lượng người dùng nhập
+        // Thiết lập tham số cho ID sản phẩm
+        ps.setInt(2, id); // ID của sản phẩm cần cập nhật
+
+        // Thực thi câu lệnh cập nhật
+        return ps.executeUpdate() > 0; // Nếu có dòng nào bị ảnh hưởng, trả về true
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return false; // Nếu có lỗi, trả về false
+}
+
 
 }

@@ -280,6 +280,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtTimGG">
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTimGGKeyReleased"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
@@ -395,11 +398,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnSuaGGMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnXoaGG">
               <Properties>
                 <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnXoaGGMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnLamMoiGG">
               <Properties>
@@ -522,6 +531,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="reset"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnResetMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel13">
               <Properties>
@@ -682,6 +694,9 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblGGNgungBanMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -689,6 +704,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Kh&#xf4;i Ph&#x1ee5;c"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnKhoiPhucMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel12">
               <Properties>
@@ -696,11 +714,17 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtGGNgungBan">
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtGGNgungBanKeyReleased"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnResetNgung">
               <Properties>
                 <Property name="text" type="java.lang.String" value="reset"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnResetNgungMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

@@ -18,6 +18,11 @@ public class HoaDonChiTiet {
     private BigDecimal soTienSauGiam;
     private int idHoaDon;
     private int idSanPham;
+    private String maSanPham;
+    private String tenSanPham;
+    private String maHoaDon;
+    private BigDecimal thanhTien;
+    private BigDecimal giaBan;
 
     public HoaDonChiTiet() {
     }
@@ -29,6 +34,18 @@ public class HoaDonChiTiet {
         this.soTienSauGiam = soTienSauGiam;
         this.idHoaDon = idHoaDon;
         this.idSanPham = idSanPham;
+    }
+
+    public HoaDonChiTiet(int idHDCT, int soLuong, BigDecimal giaSauGiam, BigDecimal soTienSauGiam, String maSanPham, String tenSanPham, String maHoaDon, BigDecimal thanhTien, BigDecimal giaBan) {
+        this.idHDCT = idHDCT;
+        this.soLuong = soLuong;
+        this.giaSauGiam = giaSauGiam;
+        this.soTienSauGiam = soTienSauGiam;
+        this.maSanPham = maSanPham;
+        this.tenSanPham = tenSanPham;
+        this.maHoaDon = maHoaDon;
+        this.thanhTien = thanhTien;
+        this.giaBan = giaBan;
     }
 
     public int getIdHDCT() {
@@ -78,6 +95,48 @@ public class HoaDonChiTiet {
     public void setIdSanPham(int idSanPham) {
         this.idSanPham = idSanPham;
     }
+
+    public String getMaSanPham() {
+        return maSanPham;
+    }
+
+    public void setMaSanPham(String maSanPham) {
+        this.maSanPham = maSanPham;
+    }
+
+    public String getTenSanPham() {
+        return tenSanPham;
+    }
+
+    public void setTenSanPham(String tenSanPham) {
+        this.tenSanPham = tenSanPham;
+    }
+
+    public String getMaHoaDon() {
+        return maHoaDon;
+    }
+
+    public void setMaHoaDon(String maHoaDon) {
+        this.maHoaDon = maHoaDon;
+    }
+
+    public BigDecimal getThanhTien() {
+        return thanhTien;
+    }
+
+    public void setThanhTien(BigDecimal thanhTien) {
+        this.thanhTien = thanhTien;
+    }
+
+    public BigDecimal getGiaBan() {
+        return giaBan;
+    }
+
+    public void setGiaBan(BigDecimal giaBan) {
+        this.giaBan = giaBan;
+    }
+
+   
 
   
 }

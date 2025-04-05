@@ -24,9 +24,10 @@ import javax.swing.table.DefaultTableModel;
  * @author Admin
  */
 public class GiamGia extends javax.swing.JPanel {
-
+    
     private GiamGiaRepo repoGG;
-
+    private int selectIDGG=-1;
+    
     public GiamGia() {
         this.repoGG = new Repository.GiamGiaRepo();
         initComponents();
@@ -34,9 +35,9 @@ public class GiamGia extends javax.swing.JPanel {
         txtMaGG.setEditable(false);
         loadTbale();
         loadTbaleNgung();
-
+        
     }
-
+    
     public void loadTbale() {
         DefaultTableModel model = (DefaultTableModel) this.tblGG.getModel();
         model.setRowCount(0);
@@ -56,10 +57,35 @@ public class GiamGia extends javax.swing.JPanel {
                 gg.getTrangThai() ? "Đang diễn ra" : "Kết Thúc",
                 gg.getNgayTao(),};
             model.addRow(rowData);
-
+            
+        }
+        rdoPhanTramGG.setSelected(true);
+        rdoDangDienRa.setSelected(true);
+    }
+    
+    public void updateConloadTbale(String keyword) {
+        DefaultTableModel model = (DefaultTableModel) this.tblGG.getModel();
+        model.setRowCount(0);
+        List<Model.GiamGiaModel> listGG = repoGG.searchGiamGiaCon(keyword);
+        for (GiamGiaModel gg : listGG) {
+            Object[] rowData = {
+                gg.getId(),
+                gg.getMaGiamGia(),
+                gg.getTenChuongTrinh(),
+                gg.getNgayBatDau(),
+                gg.getNgayKetThuc(),
+                gg.getSoLuong(),
+                gg.getKieuGiam() ? "Phần Trăm" : "VND",
+                gg.getGiaTriDHToiThieu(),
+                gg.getMucGiaGiam(),
+                gg.getMucGiaGiamToiDa(),
+                gg.getTrangThai() ? "Đang diễn ra" : "Kết Thúc",
+                gg.getNgayTao(),};
+            model.addRow(rowData);
+            
         }
     }
-
+    
     public void loadTbaleNgung() {
         DefaultTableModel model = (DefaultTableModel) this.tblGGNgungBan.getModel();
         model.setRowCount(0);
@@ -79,10 +105,33 @@ public class GiamGia extends javax.swing.JPanel {
                 gg.getTrangThai() ? "Đang diễn ra" : "Kết Thúc",
                 gg.getNgayTao(),};
             model.addRow(rowData);
-
+            
         }
     }
-
+    
+    public void updateHetloadTbale(String keyword) {
+        DefaultTableModel model = (DefaultTableModel) this.tblGGNgungBan.getModel();
+        model.setRowCount(0);
+        List<Model.GiamGiaModel> listGG = repoGG.searchGiamGiaHet(keyword);
+        for (GiamGiaModel gg : listGG) {
+            Object[] rowData = {
+                gg.getId(),
+                gg.getMaGiamGia(),
+                gg.getTenChuongTrinh(),
+                gg.getNgayBatDau(),
+                gg.getNgayKetThuc(),
+                gg.getSoLuong(),
+                gg.getKieuGiam() ? "Phần Trăm" : "VND",
+                gg.getGiaTriDHToiThieu(),
+                gg.getMucGiaGiam(),
+                gg.getMucGiaGiamToiDa(),
+                gg.getTrangThai() ? "Đang diễn ra" : "Kết Thúc",
+                gg.getNgayTao(),};
+            model.addRow(rowData);
+            
+        }
+    }
+    
     public void xoaFrom() {
         txtIDGG.setText("");
         txtMaGG.setText("");
@@ -162,6 +211,12 @@ public class GiamGia extends javax.swing.JPanel {
 
         jLabel1.setText("Tìm Kiếm");
 
+        txtTimGG.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTimGGKeyReleased(evt);
+            }
+        });
+
         jLabel2.setText("Mã GG");
 
         jLabel3.setText("Số Lượng");
@@ -212,8 +267,18 @@ public class GiamGia extends javax.swing.JPanel {
         });
 
         btnSuaGG.setText("Sửa");
+        btnSuaGG.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSuaGGMouseClicked(evt);
+            }
+        });
 
         btnXoaGG.setText("Xóa");
+        btnXoaGG.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnXoaGGMouseClicked(evt);
+            }
+        });
 
         btnLamMoiGG.setText("Làm Mới");
         btnLamMoiGG.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -250,6 +315,11 @@ public class GiamGia extends javax.swing.JPanel {
         });
 
         btnReset.setText("reset");
+        btnReset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnResetMouseClicked(evt);
+            }
+        });
 
         jLabel13.setText("Ngày Tạo");
 
@@ -444,13 +514,34 @@ public class GiamGia extends javax.swing.JPanel {
                 "ID", "Mã GG", "Tên CTrình", "Ngày BĐầu", "Ngày KThúc", "Số Lượng", "KIểu Giảm", "Giá Trị ĐHàng", "Mức GG", "Mức GG TĐa", "Trang Thái"
             }
         ));
+        tblGGNgungBan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblGGNgungBanMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblGGNgungBan);
 
         btnKhoiPhuc.setText("Khôi Phục");
+        btnKhoiPhuc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnKhoiPhucMouseClicked(evt);
+            }
+        });
 
         jLabel12.setText("Tìm Kiếm");
 
+        txtGGNgungBan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtGGNgungBanKeyReleased(evt);
+            }
+        });
+
         btnResetNgung.setText("reset");
+        btnResetNgung.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnResetNgungMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -506,7 +597,7 @@ public class GiamGia extends javax.swing.JPanel {
         if ("date".equals(evt.getPropertyName())) { // Kiểm tra nếu giá trị ngày thay đổi
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date selectedDate = dateNgayBatDau.getDate();
-
+            
             if (selectedDate != null) {
                 String ngayBan = sdf.format(selectedDate);
                 txtNgayBatDau.setText(ngayBan); // Gán ngày vào JTextField
@@ -520,7 +611,7 @@ public class GiamGia extends javax.swing.JPanel {
         if ("date".equals(evt.getPropertyName())) { // Kiểm tra nếu giá trị ngày thay đổi
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date selectedDate = dateNgayKetThuc.getDate();
-
+            
             if (selectedDate != null) {
                 String ngayBan = sdf.format(selectedDate);
                 txtNgayKetThuc.setText(ngayBan); // Gán ngày vào JTextField
@@ -538,7 +629,7 @@ public class GiamGia extends javax.swing.JPanel {
         if ("date".equals(evt.getPropertyName())) { // Kiểm tra nếu giá trị ngày thay đổi
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date selectedDate = dateNgayTao.getDate();
-
+            
             if (selectedDate != null) {
                 String ngayBan = sdf.format(selectedDate);
                 txtNgayTaoGG.setText(ngayBan); // Gán ngày vào JTextField
@@ -563,7 +654,7 @@ public class GiamGia extends javax.swing.JPanel {
             String mucGGToiDa = getCellValue(tblGG, chonRow, 9).toString();
             String trangThai = getCellValue(tblGG, chonRow, 10).toString();
             String ngayTao = getCellValue(tblGG, chonRow, 11).toString();
-
+            
             txtIDGG.setText(idSP);
             txtMaGG.setText(maSP);
             txtTenChuongTrinh.setText(tenSP);
@@ -574,12 +665,12 @@ public class GiamGia extends javax.swing.JPanel {
             txtMucGG.setText(mucGG);
             txtMucGGToiDa.setText(mucGGToiDa);
             txtNgayTaoGG.setText(ngayTao);
-
+            
             rdoPhanTramGG.setSelected(kieuGiam.equalsIgnoreCase("Phần trăm"));
             rdoVNDGG.setSelected(kieuGiam.equalsIgnoreCase("VND"));
             rdoDangDienRa.setSelected(trangThai.equalsIgnoreCase("Đang diễn ra"));
             rdoNgayKetThuc.setSelected(trangThai.equalsIgnoreCase("Kết Thúc"));
-
+            
         }
     }//GEN-LAST:event_tblGGMouseClicked
 
@@ -594,14 +685,14 @@ public class GiamGia extends javax.swing.JPanel {
         StringBuilder errorMsg = new StringBuilder();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         sdf.setLenient(false);
-
+        
         String tenChuongTrinh = txtTenChuongTrinh.getText().trim();
         if (tenChuongTrinh.isEmpty()) {
             errorMsg.append("Tên chương trình không được để trống.\n");
         } else if (!isValidText(tenChuongTrinh)) {
             errorMsg.append("Tên chương trình không được chứa ký tự đặc biệt.\n");
         }
-
+        
         String soLuongStr = txtSL.getText().trim();
         if (soLuongStr.isEmpty() || !soLuongStr.matches("\\d+")) {
             errorMsg.append("Số lượng phải là số nguyên hợp lệ.\n");
@@ -611,16 +702,16 @@ public class GiamGia extends javax.swing.JPanel {
                 errorMsg.append("Số lượng phải lớn hơn 0.\n");
             }
         }
-
+        
         String ngayBatDau = txtNgayBatDau.getText().trim();
         String ngayKetThuc = txtNgayKetThuc.getText().trim();
         String ngayTao = txtNgayTaoGG.getText().trim();
-
+        
         try {
             Date dateBatDau = sdf.parse(ngayBatDau);
             Date dateKetThuc = sdf.parse(ngayKetThuc);
             Date dateTao = sdf.parse(ngayTao);
-
+            
             if (dateKetThuc.before(dateBatDau)) {
                 errorMsg.append("Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.\n");
             }
@@ -630,12 +721,12 @@ public class GiamGia extends javax.swing.JPanel {
         } catch (ParseException e) {
             errorMsg.append("Định dạng ngày không hợp lệ (yyyy-MM-dd).\n");
         }
-
+        
         try {
             BigDecimal giaTriDHToiThieu = new BigDecimal(txtGiaTriDH.getText().trim());
             BigDecimal mucGiaGiam = new BigDecimal(txtMucGG.getText().trim());
             BigDecimal mucGiaGiamToiDa = new BigDecimal(txtMucGGToiDa.getText().trim());
-
+            
             if (giaTriDHToiThieu.compareTo(BigDecimal.ZERO) < 0) {
                 errorMsg.append("Giá trị đơn hàng tối thiểu không được âm.\n");
             }
@@ -654,14 +745,14 @@ public class GiamGia extends javax.swing.JPanel {
         } catch (NumberFormatException e) {
             errorMsg.append("Các giá trị tiền phải là số hợp lệ.\n");
         }
-
+        
         if (errorMsg.length() > 0) {
             JOptionPane.showMessageDialog(this, errorMsg.toString(), "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
     }
-
+    
     private boolean isValidText(String text) {
         return text.matches("^[a-zA-Z0-9À-ỹ]+( [a-zA-Z0-9À-ỹ]+)*$");
     }
@@ -673,7 +764,7 @@ public class GiamGia extends javax.swing.JPanel {
         try {
             // Lấy dữ liệu từ JTextField và chuyển đổi sang kiểu phù hợp
             String tenChuongTrinh = txtTenChuongTrinh.getText().trim();
-
+            
             Integer soLuong = Integer.parseInt(txtSL.getText().trim());
             Boolean kieuGiam = rdoPhanTramGG.isSelected();
             BigDecimal giaTriDHToiThieu = new BigDecimal(txtGiaTriDH.getText().trim());
@@ -684,17 +775,136 @@ public class GiamGia extends javax.swing.JPanel {
             Date ngayBatDau = sdf.parse(txtNgayBatDau.getText().trim());
             Date ngayKetThuc = sdf.parse(txtNgayKetThuc.getText().trim());
             Date ngayTao = sdf.parse(txtNgayTaoGG.getText().trim());
-
+            
             GiamGiaModel gg = new GiamGiaModel(tenChuongTrinh, ngayTao, ngayBatDau, ngayKetThuc, soLuong, kieuGiam, giaTriDHToiThieu, mucGiaGiam, mucGiaGiamToiDa, trangThai);
             repoGG.insertGiamGia(gg);
             loadTbale();
             xoaFrom();
-
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi khi thêm dữ liệu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }//GEN-LAST:event_btnThemGGMouseClicked
+
+    private void btnSuaGGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSuaGGMouseClicked
+        if (!validateInput()) {
+            return;
+        }
+        try {
+            int chonRow = tblGG.getSelectedRow();
+            if (chonRow == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn giảm giá cần sửa!");
+                return;
+            }
+            int id = Integer.parseInt(tblGG.getValueAt(chonRow, 0).toString());
+            String maGiamGia = txtMaGG.getText().trim();
+            
+            String tenChuongTrinh = txtTenChuongTrinh.getText().trim();
+            Integer soLuong = Integer.parseInt(txtSL.getText().trim());
+            Boolean kieuGiam = rdoPhanTramGG.isSelected();
+            BigDecimal giaTriDHToiThieu = new BigDecimal(txtGiaTriDH.getText().trim());
+            BigDecimal mucGiaGiam = new BigDecimal(txtMucGG.getText().trim());
+            BigDecimal mucGiaGiamToiDa = new BigDecimal(txtMucGGToiDa.getText().trim());
+            Boolean trangThai = rdoDangDienRa.isSelected(); // Sửa lỗi
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date ngayBatDau = sdf.parse(txtNgayBatDau.getText().trim());
+            Date ngayKetThuc = sdf.parse(txtNgayKetThuc.getText().trim());
+            Date ngayTao = sdf.parse(txtNgayTaoGG.getText().trim());
+            GiamGiaModel gg = new GiamGiaModel(id, maGiamGia, tenChuongTrinh, maGiamGia, ngayTao, ngayBatDau, ngayKetThuc, soLuong, kieuGiam, giaTriDHToiThieu, mucGiaGiam, mucGiaGiamToiDa, trangThai);
+            repoGG.updateGiamGia(gg);
+            loadTbale();
+            xoaFrom();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }//GEN-LAST:event_btnSuaGGMouseClicked
+
+    private void btnXoaGGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXoaGGMouseClicked
+        try {
+            int chonRow = tblGG.getSelectedRow();
+            if (chonRow == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn giảm giá cần xóa!");
+                return;
+            }
+
+            // Kiểm tra ID hợp lệ
+            int idGG;
+            try {
+                idGG = Integer.parseInt(tblGG.getValueAt(chonRow, 0).toString());
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Lỗi: ID giảm giá không hợp lệ!");
+                return;
+            }
+
+            // Xác nhận trước khi xóa
+            int confirm = JOptionPane.showConfirmDialog(this,
+                    "Bạn có chắc chắn muốn xóa giảm giá này?",
+                    "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+            
+            if (confirm != JOptionPane.YES_OPTION) {
+                return;
+            }
+
+            // Xóa nhân viên
+            if (repoGG.deleteGiamGia(idGG)) {
+                JOptionPane.showMessageDialog(this, "Xóa giảm giá thành công!");
+                loadTbale(); // Cập nhật lại bảng
+                xoaFrom();
+            } else {
+                JOptionPane.showMessageDialog(this, "Xóa giảm giá thất bại! Vui lòng kiểm tra lại.");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi hệ thống: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_btnXoaGGMouseClicked
+
+    private void txtTimGGKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimGGKeyReleased
+        String timKiem = txtTimGG.getText().trim();
+        updateConloadTbale(timKiem);
+    }//GEN-LAST:event_txtTimGGKeyReleased
+
+    private void txtGGNgungBanKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtGGNgungBanKeyReleased
+        String timKiem = txtGGNgungBan.getText().trim();
+        updateHetloadTbale(timKiem);
+    }//GEN-LAST:event_txtGGNgungBanKeyReleased
+
+    private void btnResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseClicked
+        loadTbale();
+    }//GEN-LAST:event_btnResetMouseClicked
+
+    private void btnResetNgungMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetNgungMouseClicked
+       loadTbaleNgung();
+    }//GEN-LAST:event_btnResetNgungMouseClicked
+
+    private void btnKhoiPhucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKhoiPhucMouseClicked
+       if (selectIDGG == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn giảm giá cần khôi phục!");
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn khôi phục giảm giá này?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            if (repoGG.khôiPhucGiamGia(selectIDGG)) {
+                JOptionPane.showMessageDialog(this, "Khôi phục giảm giá thành công!");
+                selectIDGG = -1;
+                loadTbaleNgung();
+            } else {
+                JOptionPane.showMessageDialog(this, "Khôi phục giảm giá thất bại!");
+            }
+        }
+    }//GEN-LAST:event_btnKhoiPhucMouseClicked
+
+    private void tblGGNgungBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGGNgungBanMouseClicked
+      int selectedRow = tblGGNgungBan.getSelectedRow();
+        if (selectedRow != -1) {
+            selectIDGG = (int) tblGGNgungBan.getValueAt(selectedRow, 0); // Lấy ID từ cột đầu tiên
+        }
+    }//GEN-LAST:event_tblGGNgungBanMouseClicked
     private String getCellValue(JTable table, int row, int col) {
         Object value = table.getValueAt(row, col);
         return (value != null) ? value.toString() : "";
