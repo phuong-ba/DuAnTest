@@ -18,6 +18,24 @@ public class GioHang {
     String tenSP;
     int SoLuong;
     BigDecimal donGia;
+    BigDecimal tongTienSP;
+
+    public BigDecimal getTongTienSP() {
+        return tongTienSP;
+    }
+
+    public void setTongTienSP(BigDecimal tongTienSP) {
+        this.tongTienSP = tongTienSP;
+    }
+
+    public GioHang(int idGH, String maSP, String tenSP, int SoLuong, BigDecimal donGia, BigDecimal tongTienSP) {
+        this.idGH = idGH;
+        this.maSP = maSP;
+        this.tenSP = tenSP;
+        this.SoLuong = SoLuong;
+        this.donGia = donGia;
+        this.tongTienSP = tongTienSP;
+    }
 
     public GioHang() {
     }

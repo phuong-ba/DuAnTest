@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import duantest.DBConnect.Dbconnect;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class GiamGiaRepo {
 
@@ -190,7 +191,7 @@ public class GiamGiaRepo {
     }
 
     // Tìm kiếm chương trình giảm giá theo all hết
-   public ArrayList<GiamGiaModel> searchGiamGiaHet(String keyword) {
+    public ArrayList<GiamGiaModel> searchGiamGiaHet(String keyword) {
         ArrayList<GiamGiaModel> list = new ArrayList<>();
 
         // Câu lệnh SQL cơ bản
@@ -235,6 +236,30 @@ public class GiamGiaRepo {
         }
 
         return list;
+    }
+
+    public GiamGiaModel findMaGG(String maGG) {
+        String sql = "select Ngay_Bat_Dau,Ngay_Ket_Thuc,So_Luong,Kieu_Giam,Gia_Tri_DH_Toi_Thieu,Muc_Gia_Giam,Muc_Gia_Giam_Toi_Da from Giam_Gia where Ma_Giam_Gia= ? AND Trang_Thai=1";
+        try ( Connection con = Dbconnect.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, maGG);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                GiamGiaModel gg = new GiamGiaModel();
+                gg.setMaGiamGia(maGG); 
+                gg.setTrangThai(true);
+                gg.setNgayBatDau(rs.getDate("Ngay_Bat_Dau"));
+                gg.setNgayKetThuc(rs.getDate("Ngay_Ket_Thuc"));
+                gg.setSoLuong(rs.getInt("So_Luong"));
+                gg.setKieuGiam(rs.getBoolean("Kieu_Giam"));
+                gg.setGiaTriDHToiThieu(rs.getBigDecimal("Gia_Tri_DH_Toi_Thieu"));
+                gg.setMucGiaGiam(rs.getBigDecimal("Muc_Gia_Giam"));
+                gg.setMucGiaGiamToiDa(rs.getBigDecimal("Muc_Gia_Giam_Toi_Da"));
+                return gg;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

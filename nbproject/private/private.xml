@@ -5,6 +5,7 @@
         <group>
             <file>file:/P:/DuAnTest/src/Repository/MauSacRepo.java</file>
             <file>file:/P:/DuAnTest/src/Application/Formm/HoaDon.java</file>
+            <file>file:/P:/DuAnTest/src/Repository/PhuongThucThanhToanRepo.java</file>
             <file>file:/P:/DuAnTest/src/Application/Formm/KhachHang.java</file>
             <file>file:/P:/DuAnTest/src/Repository/NhanVienRepo.java</file>
             <file>file:/P:/DuAnTest/src/Repository/SanPhamRepo.java</file>
@@ -22,6 +23,7 @@
             <file>file:/P:/DuAnTest/src/Repository/GiamGiaRepo.java</file>
             <file>file:/P:/DuAnTest/src/Model/HoaDonChiTiet.java</file>
             <file>file:/P:/DuAnTest/src/Repository/ThongKeRepo.java</file>
+            <file>file:/P:/DuAnTest/src/Application/formLogin/Login.java</file>
             <file>file:/P:/DuAnTest/src/Application/Formm/SanPham.java</file>
             <file>file:/P:/DuAnTest/src/Repository/KhachHangRepo.java</file>
             <file>file:/P:/DuAnTest/src/Model/GiamGiaModel.java</file>
@@ -30,7 +32,6 @@
             <file>file:/P:/DuAnTest/src/Application/application.java</file>
             <file>file:/P:/DuAnTest/src/Menu/MainMenu.java</file>
             <file>file:/P:/DuAnTest/src/Repository/HoaDonRepo.java</file>
-            <file>file:/P:/DuAnTest/src/Application/Formm/ThongKe.java</file>
             <file>file:/P:/DuAnTest/src/Repository/LichSuHDRepo.java</file>
             <file>file:/P:/DuAnTest/src/Model/ThongKeModel.java</file>
             <file>file:/P:/DuAnTest/src/Repository/GioHangRepo.java</file>

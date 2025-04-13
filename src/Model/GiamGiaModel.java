@@ -5,7 +5,7 @@
 package Model;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  *
@@ -28,7 +28,8 @@ public class GiamGiaModel {
 
     public GiamGiaModel() {
     }
-
+    
+    
     public GiamGiaModel(int id, String maGiamGia, String tenChuongTrinh, String moTa, Date ngayTao, Date ngayBatDau, Date ngayKetThuc, Integer soLuong, Boolean kieuGiam, BigDecimal giaTriDHToiThieu, BigDecimal mucGiaGiam, BigDecimal mucGiaGiamToiDa, Boolean trangThai) {
         this.id = id;
         this.maGiamGia = maGiamGia;
@@ -45,7 +46,7 @@ public class GiamGiaModel {
         this.trangThai = trangThai;
     }
 
-   
+
 
     public GiamGiaModel(String tenChuongTrinh, Date ngayTao, Date ngayBatDau, Date ngayKetThuc, Integer soLuong, Boolean kieuGiam, BigDecimal giaTriDHToiThieu, BigDecimal mucGiaGiam, BigDecimal mucGiaGiamToiDa, Boolean trangThai) {
         this.tenChuongTrinh = tenChuongTrinh;
@@ -59,7 +60,7 @@ public class GiamGiaModel {
         this.mucGiaGiamToiDa = mucGiaGiamToiDa;
         this.trangThai = trangThai;
     }
-   
+
     public int getId() {
         return id;
     }
@@ -164,8 +165,8 @@ public class GiamGiaModel {
         this.trangThai = trangThai;
     }
 
-   
 
+   
     
    
 }

@@ -31,7 +31,8 @@ public class KhachHangRepo {
         }
         return list;
     }
-      public ArrayList<KhachHangModel> getAllKhachHangXoa() {
+
+    public ArrayList<KhachHangModel> getAllKhachHangXoa() {
         ArrayList<KhachHangModel> list = new ArrayList<>();
         String sql = "SELECT * FROM Khach_Hang WHERE Trang_Thai=0";
         try ( Connection con = Dbconnect.getConnection();  PreparedStatement ps = con.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
@@ -132,6 +133,7 @@ public class KhachHangRepo {
         }
         return false;
     }
+
     public boolean KhoiPhucKhachHang(int idKh) {
         String sql = "UPDATE Khach_Hang SET Trang_Thai = 1 WHERE ID_Khach_Hang = ?";
         try ( Connection con = Dbconnect.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
@@ -197,6 +199,21 @@ public class KhachHangRepo {
         }
 
         return exists;
+    }
+
+    public int getIDKhachHangByMaKH(String maKH) {
+        String sql = "SELECT ID_Khach_Hang FROM Khach_Hang WHERE Ma_Khach_Hang = ?";
+        // Sử dụng PreparedStatement để tránh SQL Injection
+        try ( Connection conn = Dbconnect.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, maKH);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("ID_Khach_Hang");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; // Trả về -1 nếu không tìm thấy khách hàng
     }
 
 }

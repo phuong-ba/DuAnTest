@@ -39,7 +39,7 @@ public class HoaDon extends javax.swing.JPanel {
                 hoaDon.getMaNhanVien(),
                 hoaDon.getMaKhachHang(),
                 hoaDon.getNgayThanhToan(),
-                hoaDon.getTongGia(),
+                hoaDon.getThanhTien(),
                 hoaDon.getTrangThai(),
                 hoaDon.getLoaiThanhToan()
             });
@@ -92,7 +92,7 @@ public class HoaDon extends javax.swing.JPanel {
 
             },
             new String [] {
-                "STT", "MaHD", "MaNV", "MaKH", "NgayTT", "Tong Tien", "Trạng Thái", "HT Thanh Toán"
+                "STT", "MaHD", "MaNV", "MaKH", "NgayTT", "Thành Tiền", "Trạng Thái", "HT Thanh Toán"
             }
         ));
         jScrollPane1.setViewportView(tblHoaDon);

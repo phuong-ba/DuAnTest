@@ -109,7 +109,7 @@
                     <Column editable="true" title="MaNV" type="java.lang.Object"/>
                     <Column editable="true" title="MaKH" type="java.lang.Object"/>
                     <Column editable="true" title="NgayTT" type="java.lang.Object"/>
-                    <Column editable="true" title="Tong Tien" type="java.lang.Object"/>
+                    <Column editable="true" title="Th&#xe0;nh Ti&#x1ec1;n" type="java.lang.Object"/>
                     <Column editable="true" title="Tr&#x1ea1;ng Th&#xe1;i" type="java.lang.Object"/>
                     <Column editable="true" title="HT Thanh To&#xe1;n" type="java.lang.Object"/>
                   </Table>

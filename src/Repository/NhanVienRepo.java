@@ -312,5 +312,24 @@ public class NhanVienRepo {
         }
         return false;
     }
+    public int getIdNhanVien(String maNV) {
+        String sql = "SELECT ID_Nhan_Vien FROM Nhan_Vien WHERE Ma_Nhan_Vien = ?";
+
+        try ( Connection conn = Dbconnect.getConnection();  PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, maNV);  // Gán tên màu vào tham số
+
+            // Thực hiện truy vấn
+            ResultSet rs = stmt.executeQuery();
+
+            // Kiểm tra kết quả và trả về ID_Mau_Sac
+            if (rs.next()) {
+                return rs.getInt("ID_Nhan_Vien"); // Trả về ID_Mau_Sac nếu tìm thấy
+            } 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1; // Trả về -1 nếu không tìm thấy
+    }
 
 }

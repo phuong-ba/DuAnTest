@@ -24,10 +24,10 @@ import javax.swing.table.DefaultTableModel;
  * @author Admin
  */
 public class GiamGia extends javax.swing.JPanel {
-    
+
     private GiamGiaRepo repoGG;
-    private int selectIDGG=-1;
-    
+    private int selectIDGG = -1;
+
     public GiamGia() {
         this.repoGG = new Repository.GiamGiaRepo();
         initComponents();
@@ -35,9 +35,9 @@ public class GiamGia extends javax.swing.JPanel {
         txtMaGG.setEditable(false);
         loadTbale();
         loadTbaleNgung();
-        
+
     }
-    
+
     public void loadTbale() {
         DefaultTableModel model = (DefaultTableModel) this.tblGG.getModel();
         model.setRowCount(0);
@@ -57,12 +57,12 @@ public class GiamGia extends javax.swing.JPanel {
                 gg.getTrangThai() ? "Đang diễn ra" : "Kết Thúc",
                 gg.getNgayTao(),};
             model.addRow(rowData);
-            
+
         }
         rdoPhanTramGG.setSelected(true);
         rdoDangDienRa.setSelected(true);
     }
-    
+
     public void updateConloadTbale(String keyword) {
         DefaultTableModel model = (DefaultTableModel) this.tblGG.getModel();
         model.setRowCount(0);
@@ -82,10 +82,10 @@ public class GiamGia extends javax.swing.JPanel {
                 gg.getTrangThai() ? "Đang diễn ra" : "Kết Thúc",
                 gg.getNgayTao(),};
             model.addRow(rowData);
-            
+
         }
     }
-    
+
     public void loadTbaleNgung() {
         DefaultTableModel model = (DefaultTableModel) this.tblGGNgungBan.getModel();
         model.setRowCount(0);
@@ -105,10 +105,10 @@ public class GiamGia extends javax.swing.JPanel {
                 gg.getTrangThai() ? "Đang diễn ra" : "Kết Thúc",
                 gg.getNgayTao(),};
             model.addRow(rowData);
-            
+
         }
     }
-    
+
     public void updateHetloadTbale(String keyword) {
         DefaultTableModel model = (DefaultTableModel) this.tblGGNgungBan.getModel();
         model.setRowCount(0);
@@ -128,10 +128,10 @@ public class GiamGia extends javax.swing.JPanel {
                 gg.getTrangThai() ? "Đang diễn ra" : "Kết Thúc",
                 gg.getNgayTao(),};
             model.addRow(rowData);
-            
+
         }
     }
-    
+
     public void xoaFrom() {
         txtIDGG.setText("");
         txtMaGG.setText("");
@@ -597,7 +597,7 @@ public class GiamGia extends javax.swing.JPanel {
         if ("date".equals(evt.getPropertyName())) { // Kiểm tra nếu giá trị ngày thay đổi
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date selectedDate = dateNgayBatDau.getDate();
-            
+
             if (selectedDate != null) {
                 String ngayBan = sdf.format(selectedDate);
                 txtNgayBatDau.setText(ngayBan); // Gán ngày vào JTextField
@@ -611,7 +611,7 @@ public class GiamGia extends javax.swing.JPanel {
         if ("date".equals(evt.getPropertyName())) { // Kiểm tra nếu giá trị ngày thay đổi
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date selectedDate = dateNgayKetThuc.getDate();
-            
+
             if (selectedDate != null) {
                 String ngayBan = sdf.format(selectedDate);
                 txtNgayKetThuc.setText(ngayBan); // Gán ngày vào JTextField
@@ -629,7 +629,7 @@ public class GiamGia extends javax.swing.JPanel {
         if ("date".equals(evt.getPropertyName())) { // Kiểm tra nếu giá trị ngày thay đổi
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date selectedDate = dateNgayTao.getDate();
-            
+
             if (selectedDate != null) {
                 String ngayBan = sdf.format(selectedDate);
                 txtNgayTaoGG.setText(ngayBan); // Gán ngày vào JTextField
@@ -654,7 +654,7 @@ public class GiamGia extends javax.swing.JPanel {
             String mucGGToiDa = getCellValue(tblGG, chonRow, 9).toString();
             String trangThai = getCellValue(tblGG, chonRow, 10).toString();
             String ngayTao = getCellValue(tblGG, chonRow, 11).toString();
-            
+
             txtIDGG.setText(idSP);
             txtMaGG.setText(maSP);
             txtTenChuongTrinh.setText(tenSP);
@@ -665,12 +665,12 @@ public class GiamGia extends javax.swing.JPanel {
             txtMucGG.setText(mucGG);
             txtMucGGToiDa.setText(mucGGToiDa);
             txtNgayTaoGG.setText(ngayTao);
-            
+
             rdoPhanTramGG.setSelected(kieuGiam.equalsIgnoreCase("Phần trăm"));
             rdoVNDGG.setSelected(kieuGiam.equalsIgnoreCase("VND"));
             rdoDangDienRa.setSelected(trangThai.equalsIgnoreCase("Đang diễn ra"));
             rdoNgayKetThuc.setSelected(trangThai.equalsIgnoreCase("Kết Thúc"));
-            
+
         }
     }//GEN-LAST:event_tblGGMouseClicked
 
@@ -685,14 +685,14 @@ public class GiamGia extends javax.swing.JPanel {
         StringBuilder errorMsg = new StringBuilder();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         sdf.setLenient(false);
-        
+
         String tenChuongTrinh = txtTenChuongTrinh.getText().trim();
         if (tenChuongTrinh.isEmpty()) {
             errorMsg.append("Tên chương trình không được để trống.\n");
         } else if (!isValidText(tenChuongTrinh)) {
             errorMsg.append("Tên chương trình không được chứa ký tự đặc biệt.\n");
         }
-        
+
         String soLuongStr = txtSL.getText().trim();
         if (soLuongStr.isEmpty() || !soLuongStr.matches("\\d+")) {
             errorMsg.append("Số lượng phải là số nguyên hợp lệ.\n");
@@ -702,16 +702,16 @@ public class GiamGia extends javax.swing.JPanel {
                 errorMsg.append("Số lượng phải lớn hơn 0.\n");
             }
         }
-        
+
         String ngayBatDau = txtNgayBatDau.getText().trim();
         String ngayKetThuc = txtNgayKetThuc.getText().trim();
         String ngayTao = txtNgayTaoGG.getText().trim();
-        
+
         try {
             Date dateBatDau = sdf.parse(ngayBatDau);
             Date dateKetThuc = sdf.parse(ngayKetThuc);
             Date dateTao = sdf.parse(ngayTao);
-            
+
             if (dateKetThuc.before(dateBatDau)) {
                 errorMsg.append("Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.\n");
             }
@@ -721,12 +721,12 @@ public class GiamGia extends javax.swing.JPanel {
         } catch (ParseException e) {
             errorMsg.append("Định dạng ngày không hợp lệ (yyyy-MM-dd).\n");
         }
-        
+
         try {
             BigDecimal giaTriDHToiThieu = new BigDecimal(txtGiaTriDH.getText().trim());
             BigDecimal mucGiaGiam = new BigDecimal(txtMucGG.getText().trim());
             BigDecimal mucGiaGiamToiDa = new BigDecimal(txtMucGGToiDa.getText().trim());
-            
+
             if (giaTriDHToiThieu.compareTo(BigDecimal.ZERO) < 0) {
                 errorMsg.append("Giá trị đơn hàng tối thiểu không được âm.\n");
             }
@@ -745,14 +745,14 @@ public class GiamGia extends javax.swing.JPanel {
         } catch (NumberFormatException e) {
             errorMsg.append("Các giá trị tiền phải là số hợp lệ.\n");
         }
-        
+
         if (errorMsg.length() > 0) {
             JOptionPane.showMessageDialog(this, errorMsg.toString(), "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
     }
-    
+
     private boolean isValidText(String text) {
         return text.matches("^[a-zA-Z0-9À-ỹ]+( [a-zA-Z0-9À-ỹ]+)*$");
     }
@@ -764,7 +764,7 @@ public class GiamGia extends javax.swing.JPanel {
         try {
             // Lấy dữ liệu từ JTextField và chuyển đổi sang kiểu phù hợp
             String tenChuongTrinh = txtTenChuongTrinh.getText().trim();
-            
+
             Integer soLuong = Integer.parseInt(txtSL.getText().trim());
             Boolean kieuGiam = rdoPhanTramGG.isSelected();
             BigDecimal giaTriDHToiThieu = new BigDecimal(txtGiaTriDH.getText().trim());
@@ -772,15 +772,15 @@ public class GiamGia extends javax.swing.JPanel {
             BigDecimal mucGiaGiamToiDa = new BigDecimal(txtMucGGToiDa.getText().trim());
             Boolean trangThai = rdoDangDienRa.isSelected(); // Sửa lỗi
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date ngayBatDau = sdf.parse(txtNgayBatDau.getText().trim());
-            Date ngayKetThuc = sdf.parse(txtNgayKetThuc.getText().trim());
-            Date ngayTao = sdf.parse(txtNgayTaoGG.getText().trim());
-            
+            java.sql.Date ngayBatDau = new java.sql.Date(sdf.parse(txtNgayBatDau.getText().trim()).getTime());
+            java.sql.Date ngayKetThuc = new java.sql.Date(sdf.parse(txtNgayKetThuc.getText().trim()).getTime());
+            java.sql.Date ngayTao = new java.sql.Date(sdf.parse(txtNgayTaoGG.getText().trim()).getTime());
+
             GiamGiaModel gg = new GiamGiaModel(tenChuongTrinh, ngayTao, ngayBatDau, ngayKetThuc, soLuong, kieuGiam, giaTriDHToiThieu, mucGiaGiam, mucGiaGiamToiDa, trangThai);
             repoGG.insertGiamGia(gg);
             loadTbale();
             xoaFrom();
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi khi thêm dữ liệu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
@@ -799,7 +799,7 @@ public class GiamGia extends javax.swing.JPanel {
             }
             int id = Integer.parseInt(tblGG.getValueAt(chonRow, 0).toString());
             String maGiamGia = txtMaGG.getText().trim();
-            
+
             String tenChuongTrinh = txtTenChuongTrinh.getText().trim();
             Integer soLuong = Integer.parseInt(txtSL.getText().trim());
             Boolean kieuGiam = rdoPhanTramGG.isSelected();
@@ -808,9 +808,9 @@ public class GiamGia extends javax.swing.JPanel {
             BigDecimal mucGiaGiamToiDa = new BigDecimal(txtMucGGToiDa.getText().trim());
             Boolean trangThai = rdoDangDienRa.isSelected(); // Sửa lỗi
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date ngayBatDau = sdf.parse(txtNgayBatDau.getText().trim());
-            Date ngayKetThuc = sdf.parse(txtNgayKetThuc.getText().trim());
-            Date ngayTao = sdf.parse(txtNgayTaoGG.getText().trim());
+            java.sql.Date ngayBatDau = new java.sql.Date(sdf.parse(txtNgayBatDau.getText().trim()).getTime());
+            java.sql.Date ngayKetThuc = new java.sql.Date(sdf.parse(txtNgayKetThuc.getText().trim()).getTime());
+            java.sql.Date ngayTao = new java.sql.Date(sdf.parse(txtNgayTaoGG.getText().trim()).getTime());
             GiamGiaModel gg = new GiamGiaModel(id, maGiamGia, tenChuongTrinh, maGiamGia, ngayTao, ngayBatDau, ngayKetThuc, soLuong, kieuGiam, giaTriDHToiThieu, mucGiaGiam, mucGiaGiamToiDa, trangThai);
             repoGG.updateGiamGia(gg);
             loadTbale();
@@ -842,7 +842,7 @@ public class GiamGia extends javax.swing.JPanel {
             int confirm = JOptionPane.showConfirmDialog(this,
                     "Bạn có chắc chắn muốn xóa giảm giá này?",
                     "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-            
+
             if (confirm != JOptionPane.YES_OPTION) {
                 return;
             }
@@ -859,7 +859,7 @@ public class GiamGia extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Lỗi hệ thống: " + e.getMessage());
             e.printStackTrace();
         }
-        
+
     }//GEN-LAST:event_btnXoaGGMouseClicked
 
     private void txtTimGGKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimGGKeyReleased
@@ -877,11 +877,11 @@ public class GiamGia extends javax.swing.JPanel {
     }//GEN-LAST:event_btnResetMouseClicked
 
     private void btnResetNgungMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetNgungMouseClicked
-       loadTbaleNgung();
+        loadTbaleNgung();
     }//GEN-LAST:event_btnResetNgungMouseClicked
 
     private void btnKhoiPhucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKhoiPhucMouseClicked
-       if (selectIDGG == -1) {
+        if (selectIDGG == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn giảm giá cần khôi phục!");
             return;
         }
@@ -900,7 +900,7 @@ public class GiamGia extends javax.swing.JPanel {
     }//GEN-LAST:event_btnKhoiPhucMouseClicked
 
     private void tblGGNgungBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGGNgungBanMouseClicked
-      int selectedRow = tblGGNgungBan.getSelectedRow();
+        int selectedRow = tblGGNgungBan.getSelectedRow();
         if (selectedRow != -1) {
             selectIDGG = (int) tblGGNgungBan.getValueAt(selectedRow, 0); // Lấy ID từ cột đầu tiên
         }

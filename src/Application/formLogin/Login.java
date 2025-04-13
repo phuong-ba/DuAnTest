@@ -149,6 +149,11 @@ public class Login extends javax.swing.JFrame {
 
         if (tkRepo.checkLogin(username, password)) {
             String role = tkRepo.getUserRole(username);
+            int trangThai = tkRepo.getTrangThaiNhanVien(username);
+            if (trangThai == 0) {
+                JOptionPane.showMessageDialog(this, "Tài khoản không có quyền truy cập!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             if ("ROLE_ADMIN".equals(role)) {
                 JOptionPane.showMessageDialog(this, "Đăng nhập với quyền ADMIN!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
