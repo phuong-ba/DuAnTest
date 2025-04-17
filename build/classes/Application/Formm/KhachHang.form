@@ -334,8 +334,8 @@
                         <Column editable="true" title="ID Khach Hang" type="java.lang.Object"/>
                         <Column editable="true" title="Ma Khach Hang" type="java.lang.Object"/>
                         <Column editable="true" title="Ho Ten" type="java.lang.Object"/>
-                        <Column editable="true" title="SDT" type="java.lang.Object"/>
                         <Column editable="true" title="Gioi Tinh" type="java.lang.Object"/>
+                        <Column editable="true" title="SDT" type="java.lang.Object"/>
                         <Column editable="true" title="&#x110;&#x1ecb;a ch&#x1ec9;" type="java.lang.Object"/>
                       </Table>
                     </Property>

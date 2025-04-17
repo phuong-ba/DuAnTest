@@ -187,7 +187,7 @@ public class NhanVienRepo {
     // Tìm kiếm khách hàng theo tên hoặc số điện thoại
     public ArrayList<NhanVienModel> searchNhanVien(String keyword, String gioiTinh) {
         ArrayList<NhanVienModel> list = new ArrayList<>();
-        String sql = "SELECT * FROM Nhan_Vien WHERE (LOWER(Ho_Ten) LIKE LOWER(?) OR LOWER(SDT) LIKE LOWER(?))";
+        String sql = "SELECT * FROM Nhan_Vien WHERE Trang_Thai=1 AND (LOWER(Ho_Ten) LIKE LOWER(?) OR LOWER(SDT) LIKE LOWER(?))";
 
         // Kiểm tra điều kiện "Tất Cả" đúng
         boolean locGioiTinh = !gioiTinh.equalsIgnoreCase("Tất Cả");

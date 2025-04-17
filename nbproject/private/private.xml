@@ -5,6 +5,7 @@
         <group>
             <file>file:/P:/DuAnTest/src/Repository/MauSacRepo.java</file>
             <file>file:/P:/DuAnTest/src/Application/Formm/HoaDon.java</file>
+            <file>file:/P:/DuAnTest/src/Model/KhachHangModel.java</file>
             <file>file:/P:/DuAnTest/src/Repository/PhuongThucThanhToanRepo.java</file>
             <file>file:/P:/DuAnTest/src/Application/Formm/KhachHang.java</file>
             <file>file:/P:/DuAnTest/src/Repository/NhanVienRepo.java</file>
@@ -33,6 +34,7 @@
             <file>file:/P:/DuAnTest/src/Menu/MainMenu.java</file>
             <file>file:/P:/DuAnTest/src/Repository/HoaDonRepo.java</file>
             <file>file:/P:/DuAnTest/src/Repository/LichSuHDRepo.java</file>
+            <file>file:/P:/DuAnTest/src/Application/Formm/ThongKe.java</file>
             <file>file:/P:/DuAnTest/src/Model/ThongKeModel.java</file>
             <file>file:/P:/DuAnTest/src/Repository/GioHangRepo.java</file>
         </group>

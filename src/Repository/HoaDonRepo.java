@@ -90,17 +90,23 @@ public class HoaDonRepo {
         List<HoaDonModel> list = new ArrayList<>();
         String sql = """
             SELECT * FROM HoaDon WHERE
-            Ma_Hoa_Don LIKE ? OR SDT LIKE ? OR DiaChi LIKE ? OR
-            NgayTao LIKE ? OR NgayThanhToan LIKE ? OR
-            TongGia LIKE ? OR HinhThucThanhToan LIKE ? OR
-            TrangThai LIKE ? OR ID_Khach_Hang LIKE ? OR
-            ID_Nhan_Vien LIKE ? OR ID_Phuong_Thuc_Thanh_Toan LIKE ?;
+                LOWER(Ma_Hoa_Don) LIKE LOWER(?) OR
+                LOWER(SDT) LIKE LOWER(?) OR
+                LOWER(Dia_Chi) LIKE LOWER(?) OR
+                FORMAT(Ngay_Tao, 'yyyy-MM-dd') LIKE ? OR
+                FORMAT(Ngay_Thanh_Toan, 'yyyy-MM-dd') LIKE ? OR
+                CAST(Thanh_Tien AS VARCHAR) LIKE ? OR
+                LOWER(Hinh_Thuc_Thanh_Toan) LIKE LOWER(?) OR
+                LOWER(Trang_Thai) LIKE LOWER(?) OR
+                LOWER(ID_Khach_Hang) LIKE LOWER(?) OR
+                LOWER(ID_Nhan_Vien) LIKE LOWER(?) OR
+                LOWER(ID_Thanh_Toan) LIKE LOWER(?);
         """;
 
         try ( Connection conn = Dbconnect.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
             String searchKeyword = "%" + keyword + "%";
-            for (int i = 1; i <= 11; i++) {
+            for (int i = 1; i <= 8; i++) {
                 ps.setString(i, searchKeyword);
             }
 
@@ -112,7 +118,6 @@ public class HoaDonRepo {
                     hd.setNgayTao(rs.getDate("NgayTao"));
                     hd.setNgayThanhToan(rs.getDate("NgayThanhToan"));
                     hd.setTongGia(rs.getBigDecimal("TongGia"));
-
                     hd.setSdt(rs.getString("SDT"));
                     hd.setDiaChi(rs.getString("DiaChi"));
                     hd.setTrangThai(rs.getBoolean("TrangThai"));
@@ -196,10 +201,10 @@ public class HoaDonRepo {
         	hd.Thanh_Tien,
             sp.Ma_San_Pham, 
             sp.Ten_San_Pham,
-        	sp.Gia_Ban
+        	sp.Gia_Ban                     
         FROM Hoa_Don_Chi_Tiet hdc
         LEFT JOIN Hoa_Don hd ON hdc.ID_Hoa_Don = hd.ID_Hoa_Don
-        LEFT JOIN San_Pham sp ON hdc.ID_San_Pham = sp.ID_San_Pham;
+        LEFT JOIN San_Pham sp ON hdc.ID_San_Pham = sp.ID_San_Pham;        
 """;
 
         try ( Connection conn = Dbconnect.getConnection();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
@@ -207,16 +212,16 @@ public class HoaDonRepo {
             while (rs.next()) {
                 HoaDonChiTiet hoaDonCT = new HoaDonChiTiet();
                 hoaDonCT.setIdHoaDon(rs.getInt("ID_HDCT"));
-                hoaDonCT.setSoLuong(rs.getInt("So_Luong"));
-                hoaDonCT.setGiaSauGiam(rs.getBigDecimal("Gia_Sau_Giam"));
-                hoaDonCT.setSoTienSauGiam(rs.getBigDecimal("So_Tien_Sau_Giam"));
                 hoaDonCT.setMaHoaDon(rs.getString("Ma_Hoa_Don"));
-                hoaDonCT.setThanhTien(rs.getBigDecimal("Thanh_Tien"));
                 hoaDonCT.setMaSanPham(rs.getString("Ma_San_Pham"));
                 hoaDonCT.setTenSanPham(rs.getString("Ten_San_Pham"));
                 hoaDonCT.setGiaBan(rs.getBigDecimal("Gia_Ban"));
-
+                hoaDonCT.setSoLuong(rs.getInt("So_Luong"));
+                hoaDonCT.setThanhTien(rs.getBigDecimal("Thanh_Tien"));
+                hoaDonCT.setGiaSauGiam(rs.getBigDecimal("Gia_Sau_Giam"));
+                hoaDonCT.setSoTienSauGiam(rs.getBigDecimal("So_Tien_Sau_Giam"));
                 hoaDonList.add(hoaDonCT);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -302,7 +307,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)
             ps.setInt(6, hd.getIdKhachHang());
             ps.setInt(7, hd.getIdNhanVien());
             ps.setInt(8, hd.getIdThanhToan());
-            ps.setString(9, hd.getMaHoaDon()); 
+            ps.setString(9, hd.getMaHoaDon());
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();

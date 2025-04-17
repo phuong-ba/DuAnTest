@@ -46,8 +46,10 @@ public class ThongKeRepo {
 
     public List<ThongKeModel> TimTheoKhoangNgay(java.sql.Date ngayBD, java.sql.Date ngayKT) {
         List<ThongKeModel> list = new ArrayList<>();
-        String sql = "SELECT ID_Hoa_Don, Ma_Hoa_Don, Ngay_Thanh_Toan, Thanh_Tien, Trang_Thai, "
-                + "SUM(Thanh_Tien) OVER () AS TongTien FROM Hoa_Don WHERE Ngay_Thanh_Toan BETWEEN ? AND ?";
+      String sql = "SELECT ID_Hoa_Don, Ma_Hoa_Don, Ngay_Thanh_Toan, Thanh_Tien, Trang_Thai, "
+           + "SUM(Thanh_Tien) OVER () AS TongTien "
+           + "FROM Hoa_Don "
+           + "WHERE Trang_Thai = 1 AND Ngay_Thanh_Toan BETWEEN ? AND ?";
 
         try ( Connection con = Dbconnect.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -76,7 +78,7 @@ public class ThongKeRepo {
 
   public BigDecimal TimYear(int year) {
     BigDecimal tongTien = BigDecimal.ZERO;
-    String sql = "SELECT SUM(Thanh_Tien) AS TongTien FROM Hoa_Don WHERE YEAR(Ngay_Thanh_Toan) = ?";
+    String sql = "SELECT SUM(Thanh_Tien) AS TongTien FROM Hoa_Don WHERE YEAR(Ngay_Thanh_Toan) = ? and Trang_Thai=1";
 
     try (Connection con = Dbconnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
         ps.setInt(1, year);
@@ -93,7 +95,7 @@ public class ThongKeRepo {
 }
 public List<ThongKeModel> getHoaDonByYear(int year) {
     List<ThongKeModel> list = new ArrayList<>();
-    String sql = "SELECT * FROM Hoa_Don WHERE YEAR(Ngay_Thanh_Toan) = ?";
+    String sql = "SELECT * FROM Hoa_Don WHERE YEAR(Ngay_Thanh_Toan) = ? and Trang_Thai=1";
 
     try (Connection con = Dbconnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
         ps.setInt(1, year);

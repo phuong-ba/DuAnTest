@@ -49,8 +49,8 @@ public class KhachHang extends javax.swing.JPanel {
                 kh.getId(),
                 kh.getMaKH(),
                 kh.getTenKH(),
-                kh.getSdtKH(),
                 kh.getGioiTinhKH() ? "Nam" : "Nữ",
+                kh.getSdtKH(),
                 kh.getDiaChiKH(),};
 
             // Thêm dữ liệu vào bảng
@@ -232,7 +232,7 @@ public class KhachHang extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID Khach Hang", "Ma Khach Hang", "Ho Ten", "SDT", "Gioi Tinh", "Địa chỉ"
+                "ID Khach Hang", "Ma Khach Hang", "Ho Ten", "Gioi Tinh", "SDT", "Địa chỉ"
             }
         ));
         tblKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -446,8 +446,8 @@ public class KhachHang extends javax.swing.JPanel {
             String idKh = tblKhachHang.getValueAt(selectedRow, 0).toString();
             String maKh = tblKhachHang.getValueAt(selectedRow, 1).toString();
             String tenKh = tblKhachHang.getValueAt(selectedRow, 2).toString();
-            String sdtKH = tblKhachHang.getValueAt(selectedRow, 3).toString();
-            String GioiTinhKH = tblKhachHang.getValueAt(selectedRow, 4).toString();
+            String GioiTinhKH = tblKhachHang.getValueAt(selectedRow, 3).toString();
+            String sdtKH = tblKhachHang.getValueAt(selectedRow, 4).toString();
             String DiaChiKH = tblKhachHang.getValueAt(selectedRow, 5).toString();
             txtIDKH.setText(idKh);
             txtMaKH.setText(maKh);

@@ -251,6 +251,9 @@ public class NhanVien extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(tblDangLam);
+        if (tblDangLam.getColumnModel().getColumnCount() > 0) {
+            tblDangLam.getColumnModel().getColumn(12).setHeaderValue("Ngày Kết Thúc");
+        }
 
         jLabel14.setText("Ngày Kết Thúc");
 
@@ -961,20 +964,6 @@ public class NhanVien extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_dateNgayBatDauPropertyChange
 
-    private void dateNgayKetThucPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateNgayKetThucPropertyChange
-        if ("date".equals(evt.getPropertyName())) { // Kiểm tra nếu giá trị ngày thay đổi
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date selectedDate = dateNgayKetThuc.getDate();
-
-            if (selectedDate != null) {
-                String ngayKetThuc = sdf.format(selectedDate);
-                txtNKT.setText(ngayKetThuc); // Gán ngày vào JTextField
-            } else {
-                txtNKT.setText(""); // Nếu không có ngày, làm rỗng ô text
-            }
-        }
-    }//GEN-LAST:event_dateNgayKetThucPropertyChange
-
     private void dateNgaySinhPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateNgaySinhPropertyChange
         if ("date".equals(evt.getPropertyName())) { // Kiểm tra nếu giá trị ngày thay đổi
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -991,7 +980,7 @@ public class NhanVien extends javax.swing.JPanel {
 
     private void txtNVTimDangLamKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNVTimDangLamKeyReleased
         String timKiem = txtNVTimDangLam.getText().trim();
-        String gioiTinh = (String) cbbChucVu.getSelectedItem();
+        String gioiTinh = (String) cbbGioiTinh.getSelectedItem();
         updateTableNhanVien(timKiem, gioiTinh);
 
     }//GEN-LAST:event_txtNVTimDangLamKeyReleased
@@ -1033,6 +1022,20 @@ public class NhanVien extends javax.swing.JPanel {
         String gioiTinh = (String) cbbNghiViec.getSelectedItem();
         updateTableNhanVienNghiViec(timKiem, gioiTinh);
     }//GEN-LAST:event_cbbNghiViecActionPerformed
+
+    private void dateNgayKetThucPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateNgayKetThucPropertyChange
+        if ("date".equals(evt.getPropertyName())) { // Kiểm tra nếu giá trị ngày thay đổi
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date selectedDate = dateNgayKetThuc.getDate();
+
+            if (selectedDate != null) {
+                String ngayKetThuc = sdf.format(selectedDate);
+                txtNKT.setText(ngayKetThuc); // Gán ngày vào JTextField
+            } else {
+                txtNKT.setText(""); // Nếu không có ngày, làm rỗng ô text
+            }
+        }
+    }//GEN-LAST:event_dateNgayKetThucPropertyChange
 
     private String getCellValue(JTable table, int row, int col) {
         Object value = table.getValueAt(row, col);

@@ -428,7 +428,7 @@
                           <Renderer/>
                         </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
+                          <Title value="Ng&#xe0;y K&#x1ebf;t Th&#xfa;c"/>
                           <Editor/>
                           <Renderer/>
                         </Column>
