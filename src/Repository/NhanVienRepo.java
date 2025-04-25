@@ -171,12 +171,13 @@ public class NhanVienRepo {
         return false;
     }
 
-    public boolean deleteNhanVien(int idNV) {
+    public boolean deleteNhanVien(int idNV,java.sql.Date ngayKetThuc) {
         // Cập nhật trạng thái nhân viên thành 'ẩn' (giả sử 'Trang_Thai' = false để ẩn)
-        String sql = "UPDATE Nhan_Vien SET Trang_Thai = 0 WHERE ID_Nhan_Vien = ?";
+        String sql = "UPDATE Nhan_Vien SET Trang_Thai = 0,Ngay_Ket_Thuc = ? WHERE ID_Nhan_Vien = ?";
 
         try ( Connection conn = Dbconnect.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, idNV);
+            ps.setDate(1, ngayKetThuc);
+            ps.setInt(2, idNV);
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -184,10 +185,20 @@ public class NhanVienRepo {
         return false;
     }
 
-    // Tìm kiếm khách hàng theo tên hoặc số điện thoại
+    // Tìm kiếm nhân viên theo theo ALL trừ boolean
     public ArrayList<NhanVienModel> searchNhanVien(String keyword, String gioiTinh) {
         ArrayList<NhanVienModel> list = new ArrayList<>();
-        String sql = "SELECT * FROM Nhan_Vien WHERE Trang_Thai=1 AND (LOWER(Ho_Ten) LIKE LOWER(?) OR LOWER(SDT) LIKE LOWER(?))";
+        String sql = "SELECT * FROM Nhan_Vien WHERE Trang_Thai=1 AND ("
+                + "LOWER(Ma_Nhan_Vien) LIKE LOWER(?) OR "
+                + "LOWER(Ho_Ten) LIKE LOWER(?) OR "
+                + "LOWER(SDT) LIKE LOWER(?) OR "
+                + "LOWER(Dia_Chi) LIKE LOWER(?) OR "
+                + "LOWER(Tai_Khoan) LIKE LOWER(?) OR "
+                + "LOWER(Mat_Khau) LIKE LOWER(?) OR "
+                + "FORMAT(Ngay_Sinh, 'yyyy-MM-dd') LIKE ? OR "
+                + "FORMAT(Ngay_Bat_Dau, 'yyyy-MM-dd') LIKE ? OR "
+                + "FORMAT(Ngay_Ket_Thuc, 'yyyy-MM-dd') LIKE ?"
+                + ")";
 
         // Kiểm tra điều kiện "Tất Cả" đúng
         boolean locGioiTinh = !gioiTinh.equalsIgnoreCase("Tất Cả");
@@ -196,16 +207,25 @@ public class NhanVienRepo {
         }
 
         try ( Connection con = Dbconnect.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
+            // Thêm từ khóa vào các tham số của câu truy vấn
             ps.setString(1, "%" + keyword.toLowerCase() + "%");
             ps.setString(2, "%" + keyword.toLowerCase() + "%");
+            ps.setString(3, "%" + keyword.toLowerCase() + "%");
+            ps.setString(4, "%" + keyword.toLowerCase() + "%");
+            ps.setString(5, "%" + keyword.toLowerCase() + "%");
+            ps.setString(6, "%" + keyword.toLowerCase() + "%");
+            ps.setString(7, "%" + keyword.toLowerCase() + "%");
+            ps.setString(8, "%" + keyword.toLowerCase() + "%");
+            ps.setString(9, "%" + keyword.toLowerCase() + "%");
 
+            // Nếu có điều kiện lọc theo giới tính
             if (locGioiTinh) {
-                ps.setBoolean(3, gioiTinh.equalsIgnoreCase("Nam"));
+                ps.setBoolean(10, gioiTinh.equalsIgnoreCase("Nam"));
             }
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                NhanVienModel kh = new NhanVienModel(
+                NhanVienModel nv = new NhanVienModel(
                         rs.getInt("ID_Nhan_Vien"),
                         rs.getString("Ma_Nhan_Vien"),
                         rs.getString("Ho_Ten"),
@@ -220,33 +240,55 @@ public class NhanVienRepo {
                         rs.getDate("Ngay_Bat_Dau"),
                         rs.getDate("Ngay_Ket_Thuc")
                 );
-                list.add(kh);
+                list.add(nv);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
-    
-    // Tìm kiếm khách hàng theo tên hoặc số điện thoại
-    public ArrayList<NhanVienModel> searchNhanVienNghi(String keyword,String gioiTinh) {
+
+    // Tìm kiếm khách hàng theo trừ boolean
+    public ArrayList<NhanVienModel> searchNhanVienNghi(String keyword, String gioiTinh) {
         ArrayList<NhanVienModel> list = new ArrayList<>();
-        String sql = "SELECT * FROM Nhan_Vien WHERE Trang_Thai = 0 AND (LOWER(Ho_Ten) LIKE LOWER(?) OR LOWER(SDT) LIKE LOWER(?))";
+        String sql = "SELECT * FROM Nhan_Vien WHERE Trang_Thai=0 AND ("
+                + "LOWER(Ma_Nhan_Vien) LIKE LOWER(?) OR "
+                + "LOWER(Ho_Ten) LIKE LOWER(?) OR "
+                + "LOWER(SDT) LIKE LOWER(?) OR "
+                + "LOWER(Dia_Chi) LIKE LOWER(?) OR "
+                + "LOWER(Tai_Khoan) LIKE LOWER(?) OR "
+                + "LOWER(Mat_Khau) LIKE LOWER(?) OR "
+                + "FORMAT(Ngay_Sinh, 'yyyy-MM-dd') LIKE ? OR "
+                + "FORMAT(Ngay_Bat_Dau, 'yyyy-MM-dd') LIKE ? OR "
+                + "FORMAT(Ngay_Ket_Thuc, 'yyyy-MM-dd') LIKE ?"
+                + ")";
+
         // Kiểm tra điều kiện "Tất Cả" đúng
         boolean locGioiTinh = !gioiTinh.equalsIgnoreCase("Tất Cả");
         if (locGioiTinh) {
             sql += " AND Gioi_Tinh = ?";
         }
+
         try ( Connection con = Dbconnect.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
+            // Thêm từ khóa vào các tham số của câu truy vấn
             ps.setString(1, "%" + keyword.toLowerCase() + "%");
-            ps.setString(2, "%" + keyword.toLowerCase() + "%");  
+            ps.setString(2, "%" + keyword.toLowerCase() + "%");
+            ps.setString(3, "%" + keyword.toLowerCase() + "%");
+            ps.setString(4, "%" + keyword.toLowerCase() + "%");
+            ps.setString(5, "%" + keyword.toLowerCase() + "%");
+            ps.setString(6, "%" + keyword.toLowerCase() + "%");
+            ps.setString(7, "%" + keyword.toLowerCase() + "%");
+            ps.setString(8, "%" + keyword.toLowerCase() + "%");
+            ps.setString(9, "%" + keyword.toLowerCase() + "%");
+
+            // Nếu có điều kiện lọc theo giới tính
             if (locGioiTinh) {
-                ps.setBoolean(3, gioiTinh.equalsIgnoreCase("Nam"));
+                ps.setBoolean(10, gioiTinh.equalsIgnoreCase("Nam"));
             }
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                NhanVienModel kh = new NhanVienModel(
+                NhanVienModel nv = new NhanVienModel(
                         rs.getInt("ID_Nhan_Vien"),
                         rs.getString("Ma_Nhan_Vien"),
                         rs.getString("Ho_Ten"),
@@ -261,7 +303,7 @@ public class NhanVienRepo {
                         rs.getDate("Ngay_Bat_Dau"),
                         rs.getDate("Ngay_Ket_Thuc")
                 );
-                list.add(kh);
+                list.add(nv);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -303,7 +345,7 @@ public class NhanVienRepo {
     }
 
     public boolean khoiPhuc(int idNV) {
-        String sql = "UPDATE Nhan_Vien SET Trang_Thai = 1 WHERE ID_Nhan_Vien = ?";
+        String sql = "UPDATE Nhan_Vien SET Trang_Thai = 1,Ngay_Ket_Thuc = NULL WHERE ID_Nhan_Vien = ?";
         try ( Connection conn = Dbconnect.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idNV);
             return ps.executeUpdate() > 0;
@@ -312,6 +354,7 @@ public class NhanVienRepo {
         }
         return false;
     }
+
     public int getIdNhanVien(String maNV) {
         String sql = "SELECT ID_Nhan_Vien FROM Nhan_Vien WHERE Ma_Nhan_Vien = ?";
 
@@ -325,7 +368,7 @@ public class NhanVienRepo {
             // Kiểm tra kết quả và trả về ID_Mau_Sac
             if (rs.next()) {
                 return rs.getInt("ID_Nhan_Vien"); // Trả về ID_Mau_Sac nếu tìm thấy
-            } 
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

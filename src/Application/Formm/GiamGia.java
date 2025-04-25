@@ -742,6 +742,9 @@ public class GiamGia extends javax.swing.JPanel {
             if (mucGiaGiamToiDa.compareTo(giaTriDHToiThieu) > 0) {
                 errorMsg.append("Mức giá giảm tối đa không thể lớn hơn giá trị đơn hàng tối thiểu.\n");
             }
+            if (mucGiaGiam.compareTo(mucGiaGiamToiDa) > 0) {
+                errorMsg.append("Mức giá giảm không thể lớn hơn Mức giảm giá tôi đa.\n");
+            }
         } catch (NumberFormatException e) {
             errorMsg.append("Các giá trị tiền phải là số hợp lệ.\n");
         }

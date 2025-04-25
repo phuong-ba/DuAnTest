@@ -260,6 +260,7 @@ public class BanHang extends javax.swing.JPanel {
         txtTienKhachTra.setText("");
         txtTienThua.setText("");
         txtSoLuong.setText("");
+
     }
 
     public String kiemTraThongBaoGiamGia(GiamGiaModel gg, BigDecimal tongTienSP) {
@@ -300,8 +301,8 @@ public class BanHang extends javax.swing.JPanel {
 
             tienGiam = tongTien.multiply(phanTram);
 
-            if (tienGiam.compareTo(gg.getMucGiaGiamToiDa()) > 0) {
-                tienGiam = gg.getMucGiaGiamToiDa(); // Không vượt quá mức giảm tối đa
+            if (tienGiam.compareTo(gg.getMucGiaGiamToiDa()) >= 0) {
+                tienGiam = gg.getMucGiaGiamToiDa();
             }
         } else {
             tienGiam = gg.getMucGiaGiam();
@@ -317,20 +318,31 @@ public class BanHang extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm trong giỏ hàng để thanh toán");
                 return;
             }
-            BigDecimal tongTienSP = new BigDecimal(txttongtien.getText().trim());
-            String maGG = cbbGG.getSelectedItem().toString();
+
+            BigDecimal tongTienSP = new BigDecimal(tongTienText);
+            BigDecimal tienGiam = BigDecimal.ZERO;
+
+            String maGG = cbbGG.getSelectedItem() != null ? cbbGG.getSelectedItem().toString() : "";
             GiamGiaModel giamGia = repoGG.findMaGG(maGG);
 
-            String ketQua = kiemTraThongBaoGiamGia(giamGia, tongTienSP);
-            if (!ketQua.equals("Hợp lệ")) {
-                JOptionPane.showMessageDialog(this, ketQua);
+            if (giamGia == null || maGG.isBlank()) {
+                // k có mã giảm giá được chọn trả về 0
+                tienGiam = BigDecimal.ZERO;
             } else {
-                BigDecimal tienGiam = tinhTienGiam(tongTienSP, giamGia);
-                BigDecimal tongTienSauGiam = tongTienSP.subtract(tienGiam);
-
-                txtTienGiam.setText(tienGiam.toString());
-                txtThanhTien.setText(tongTienSauGiam.toString());
+                String ketQua = kiemTraThongBaoGiamGia(giamGia, tongTienSP);
+                if (!ketQua.equals("Hợp lệ")) {
+                    // trả về 0 nếu k có mã nào dc app
+                    tienGiam = BigDecimal.ZERO;
+                    JOptionPane.showMessageDialog(this, ketQua);
+                } else {
+                    tienGiam = tinhTienGiam(tongTienSP, giamGia);
+                }
             }
+
+            BigDecimal tongTienSauGiam = tongTienSP.subtract(tienGiam);
+
+            txtTienGiam.setText(tienGiam.toString());
+            txtThanhTien.setText(tongTienSauGiam.toString());
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi khi tính tiền: " + e.getMessage());
@@ -570,7 +582,12 @@ public class BanHang extends javax.swing.JPanel {
             }
         });
 
-        bthuy.setText("Huỷ");
+        bthuy.setText("Hủy HD");
+        bthuy.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bthuyMouseClicked(evt);
+            }
+        });
         bthuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bthuyActionPerformed(evt);
@@ -664,9 +681,7 @@ public class BanHang extends javax.swing.JPanel {
                                 .addComponent(jScrollPane2)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(116, 116, 116)
-                                .addComponent(bthuy, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addGap(188, 188, 188)
                                 .addComponent(Btlammoi)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnThanhToan))
@@ -738,7 +753,9 @@ public class BanHang extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addComponent(jLabel16)
-                        .addGap(334, 334, 334)
+                        .addGap(198, 198, 198)
+                        .addComponent(bthuy)
+                        .addGap(64, 64, 64)
                         .addComponent(btnTaoHoaDon)))
                 .addContainerGap(62, Short.MAX_VALUE))
         );
@@ -747,7 +764,9 @@ public class BanHang extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnTaoHoaDon, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnTaoHoaDon)
+                        .addComponent(bthuy))
                     .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -844,8 +863,7 @@ public class BanHang extends javax.swing.JPanel {
                         .addGap(46, 46, 46)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Btlammoi)
-                            .addComponent(btnThanhToan)
-                            .addComponent(bthuy)))
+                            .addComponent(btnThanhToan)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -861,9 +879,9 @@ public class BanHang extends javax.swing.JPanel {
 
             if (selectedDate != null) {
                 String ngayBan = sdf.format(selectedDate);
-                txtNgayThanhToan.setText(ngayBan); // Gán ngày vào JTextField
+                txtNgayThanhToan.setText(ngayBan);
             } else {
-                txtNgayThanhToan.setText(""); // Nếu không có ngày, làm rỗng ô text
+                txtNgayThanhToan.setText("");
             }
         }
     }//GEN-LAST:event_dateChooserPropertyChange
@@ -909,7 +927,7 @@ public class BanHang extends javax.swing.JPanel {
         try {
             int selectedRow = tblDSSanPham.getSelectedRow();
             if (selectedRow == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần sửa!");
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần thêm!");
                 return;
             }
 
@@ -1115,9 +1133,12 @@ public class BanHang extends javax.swing.JPanel {
             }
 
             // Kiểm tra xem các trường thông tin có trống hay không
-            if (sdt.isEmpty() || diaChi.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
+            if (sdt.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập SDT!");
                 return;
+            }
+            if (diaChi.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập Dịa Chỉ!");
             }
 
             // Kiểm tra số điện thoại: phải là số, có 10 ký tự, bắt đầu là số 0
@@ -1164,7 +1185,7 @@ public class BanHang extends javax.swing.JPanel {
         String tongTienSP = tblGioHoaDon.getValueAt(chonRow, 5).toString();
         txtSoLuong.setText(soLuong);
         txttongtien.setText(tongTienSP);
-
+        
     }//GEN-LAST:event_tblGioHoaDonMouseClicked
 
     private void txtThanhTienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtThanhTienActionPerformed
@@ -1221,7 +1242,7 @@ public class BanHang extends javax.swing.JPanel {
 
             int chonRow = tbhd.getSelectedRow();
             if (chonRow == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần thanh toán!");
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn tạo hóa đơn rồi thanh toán!");
                 return;
             }
             int idGH = Integer.parseInt(tblGioHoaDon.getValueAt(chonRow, 0).toString());
@@ -1291,13 +1312,24 @@ public class BanHang extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Địa chỉ không được chứa ký tự đặc biệt (ngoài dấu chấm, dấu phẩy và dấu gạch ngang)");
                 return;
             }
+            if (txtTienKhachTra.getText() == null || txtTienKhachTra.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Tiền khách trả không được để trống.");
+                return;
+            }
+
+            BigDecimal tienKhachTra = new BigDecimal(txtTienKhachTra.getText().trim());
+            if (tienKhachTra.compareTo(thanhTien) < 0) {
+                JOptionPane.showMessageDialog(this, "Tiền khách trả phải lớn hơn hoặc bằng thành tiền!");
+                return;
+            }
 
             HoaDonModel hd = new HoaDonModel(maHoaDon, ngayTao, tongTienSP, thanhTien, sdt, diaChi, trangThai, idKH, idNV, idTT);
             hoaDonRepo.updateHoaDon(hd);
             this.loadHoaDon();
             repoGio.deleteGioHang(idGH);
             this.loadGioHang();
-            JOptionPane.showMessageDialog(this, "Thanh toán thành công");           
+            JOptionPane.showMessageDialog(this, "Thanh toán thành công");
+            xoaFrom();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1310,6 +1342,48 @@ public class BanHang extends javax.swing.JPanel {
     private void txttongtienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttongtienActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txttongtienActionPerformed
+
+    private void bthuyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bthuyMouseClicked
+        try {
+            int chonRow1 = tbhd.getSelectedRow();
+            if (chonRow1 == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn Hoa Don cần xóa!");
+                return;
+            }
+
+            // Kiểm tra mã hợp lệ
+            String maHD;
+            try {
+                maHD = tbhd.getValueAt(chonRow1, 0).toString();
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Lỗi: Mã Hóa Đơn không hợp lệ!");
+                return;
+            }
+
+            // Xác nhận xóa
+            int confirm = JOptionPane.showConfirmDialog(this,
+                    "Bạn có chắc chắn muốn xóa hóa đơn này chứ?",
+                    "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+
+            if (confirm != JOptionPane.YES_OPTION) {
+                return;
+            }
+            // xóa hóa đơn
+            if (hoaDonRepo.deleteHD(maHD)) {
+                JOptionPane.showMessageDialog(this, "Xóa Hóa Đơn thành công!");
+                loadHoaDon();
+                xoaFrom();
+                txtMaHoaDon.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Xóa Hóa Đơn thất bại!");
+
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi hệ thống: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_bthuyMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

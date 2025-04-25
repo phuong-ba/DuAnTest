@@ -597,12 +597,6 @@ public class KhachHang extends javax.swing.JPanel {
                 return;
             }
 
-            // Kiểm tra số điện thoại đã tồn tại nhưng không phải của khách hàng hiện tại
-            if (repoKH.existsPhoneNumber(sdtKH) && !sdtKH.equals(tblKhachHang.getValueAt(selectedRow, 3).toString())) {
-                JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại! Vui lòng nhập số khác.");
-                return;
-            }
-
             // Create a customer object
             KhachHangModel kh = new KhachHangModel(idKh, maKh, tenKH, gioiTinhKH, sdtKH, diaChiKH);
 

@@ -40,7 +40,7 @@ public class HoaDon extends javax.swing.JPanel {
                 hoaDon.getMaKhachHang(),
                 hoaDon.getNgayThanhToan(),
                 hoaDon.getThanhTien(),
-                hoaDon.getTrangThai(),
+                hoaDon.getTrangThai()?"Đã thanh toán":"Chưa thanh toán",
                 hoaDon.getLoaiThanhToan()
             });
         }
@@ -58,6 +58,23 @@ public class HoaDon extends javax.swing.JPanel {
                 hoaDon.getGiaBan(),
                 hoaDon.getSoLuong(),
                 hoaDon.getThanhTien()  
+            });
+        }
+    }
+     public void updateloadTable(String keywort) {
+        List<Model.HoaDonModel> listhd = this.repohd.timHoaDon(keywort);
+        DefaultTableModel model = (DefaultTableModel) tblHoaDon.getModel();
+        model.setRowCount(0);
+        for (Model.HoaDonModel hoaDon : listhd) {
+            model.addRow(new Object[]{
+                hoaDon.getIdHoaDon(),
+                hoaDon.getMaHoaDon(),
+                hoaDon.getMaNhanVien(),
+                hoaDon.getMaKhachHang(),
+                hoaDon.getNgayThanhToan(),
+                hoaDon.getThanhTien(),
+                hoaDon.getTrangThai()?"Đã thanh toán":"Chưa thanh toán",
+                hoaDon.getLoaiThanhToan()
             });
         }
     }
@@ -85,7 +102,18 @@ public class HoaDon extends javax.swing.JPanel {
 
         jLabel2.setText("Tìm kiếm");
 
+        txtTimKiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTimKiemKeyReleased(evt);
+            }
+        });
+
         txtHDLamMoi.setText("Làm Mới");
+        txtHDLamMoi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtHDLamMoiMouseClicked(evt);
+            }
+        });
 
         tblHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -166,6 +194,17 @@ public class HoaDon extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
+      String timkiem=txtTimKiem.getText().trim();
+        updateloadTable(timkiem);
+    }//GEN-LAST:event_txtTimKiemKeyReleased
+
+    private void txtHDLamMoiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtHDLamMoiMouseClicked
+       tblHDCT.clearSelection();
+       tblHoaDon.clearSelection();
+       txtTimKiem.setText("");
+    }//GEN-LAST:event_txtHDLamMoiMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
@@ -180,7 +219,4 @@ public class HoaDon extends javax.swing.JPanel {
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 
-    void setTrangThai(String đã_thanh_toán) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

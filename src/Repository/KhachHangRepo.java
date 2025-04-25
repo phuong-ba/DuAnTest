@@ -146,41 +146,44 @@ public class KhachHangRepo {
     }
 
     // Tìm kiếm khách hàng theo tên hoặc số điện thoại
-    public ArrayList<KhachHangModel> searchKhachHang(String keyword, String gioiTinh) {
-        ArrayList<KhachHangModel> list = new ArrayList<>();
-        String sql = "SELECT * FROM Khach_Hang WHERE Trang_Thai=1 AND (LOWER(Ho_Ten) LIKE LOWER(?) OR LOWER(SDT) LIKE LOWER(?))";
+   public ArrayList<KhachHangModel> searchKhachHang(String keyword, String gioiTinh) {
+    ArrayList<KhachHangModel> list = new ArrayList<>();
+    String sql = "SELECT * FROM Khach_Hang WHERE Trang_Thai=1 AND (LOWER(Ma_Khach_Hang) LIKE LOWER(?) OR LOWER(Ho_Ten) LIKE LOWER(?) OR LOWER(SDT) LIKE LOWER(?) OR LOWER(Dia_Chi) LIKE LOWER(?))";
 
-        // Kiểm tra điều kiện "Tất Cả" đúng
-        boolean locGioiTinh = !gioiTinh.equalsIgnoreCase("Tất Cả");
-        if (locGioiTinh) {
-            sql += " AND Gioi_Tinh = ?";
-        }
-
-        try ( Connection con = Dbconnect.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, "%" + keyword.toLowerCase() + "%");
-            ps.setString(2, "%" + keyword.toLowerCase() + "%");
-
-            if (locGioiTinh) {
-                ps.setBoolean(3, gioiTinh.equalsIgnoreCase("Nam"));
-            }
-
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                KhachHangModel kh = new KhachHangModel(
-                        rs.getInt("ID_Khach_Hang"),
-                        rs.getString("Ma_Khach_Hang"),
-                        rs.getString("Ho_Ten"),
-                        rs.getBoolean("Gioi_Tinh"),
-                        rs.getString("SDT"),
-                        rs.getString("Dia_Chi")
-                );
-                list.add(kh);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
+    // Kiểm tra điều kiện "Tất Cả" đúng
+    boolean locGioiTinh = !gioiTinh.equalsIgnoreCase("Tất Cả");
+    if (locGioiTinh) {
+        sql += " AND Gioi_Tinh = ?";
     }
+
+    try (Connection con = Dbconnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setString(1, "%" + keyword.toLowerCase() + "%");
+        ps.setString(2, "%" + keyword.toLowerCase() + "%");
+        ps.setString(3, "%" + keyword.toLowerCase() + "%");
+         ps.setString(4, "%" + keyword.toLowerCase() + "%");
+
+        if (locGioiTinh) {
+            ps.setBoolean(5, gioiTinh.equalsIgnoreCase("Nam"));
+        }
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            KhachHangModel kh = new KhachHangModel(
+                    rs.getInt("ID_Khach_Hang"),
+                    rs.getString("Ma_Khach_Hang"),
+                    rs.getString("Ho_Ten"),
+                    rs.getBoolean("Gioi_Tinh"),
+                    rs.getString("SDT"),
+                    rs.getString("Dia_Chi")
+            );
+            list.add(kh);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+
 
     // Phương thức kiểm tra số điện thoại đã tồn tại trong cơ sở dữ liệu
     public boolean existsPhoneNumber(String phoneNumber) {

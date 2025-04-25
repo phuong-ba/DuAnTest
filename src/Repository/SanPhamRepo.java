@@ -86,10 +86,11 @@ public class SanPhamRepo {
         return false;
     }
 
-    // Tìm kiếm sản phẩm
-    public List<SanPhamModel> searchSanPhamBan(String keyword) {
-        List<SanPhamModel> list = new ArrayList<>();
-        String sql = "SELECT sp.ID_San_Pham, sp.Ma_San_Pham, sp.Ten_San_Pham, sp.So_Luong_Ton, "
+    // Tìm kiếm sản phẩm All trừ join bảng ,boolean
+   public List<SanPhamModel> searchSanPhamBan(String keyword) {
+    List<SanPhamModel> list = new ArrayList<>();
+    
+    String sql = "SELECT sp.ID_San_Pham, sp.Ma_San_Pham, sp.Ten_San_Pham, sp.So_Luong_Ton, "
                 + "sp.Mo_Ta, sp.Ngay_Tao, sp.Gia_Nhap, sp.Gia_Ban, sp.Trang_Thai, "
                 + "ms.Ten_Mau_Sac, kt.Ten_Kich_Thuoc, cl.Ten_Chat_Lieu, xx.Ten_Xuat_Xu, th.Ten_Thuong_Hieu "
                 + "FROM San_Pham sp "
@@ -98,41 +99,52 @@ public class SanPhamRepo {
                 + "LEFT JOIN Chat_Lieu cl ON sp.ID_Chat_Lieu = cl.ID_Chat_Lieu "
                 + "LEFT JOIN Xuat_Xu xx ON sp.ID_Xuat_Xu = xx.ID_Xuat_Xu "
                 + "LEFT JOIN Thuong_Hieu th ON sp.ID_Thuong_Hieu = th.ID_Thuong_Hieu "
-                + "WHERE sp.Trang_Thai = 1 AND LOWER(sp.Ten_San_Pham) LIKE LOWER(?)";
+                + "WHERE sp.Trang_Thai = 1 AND (LOWER(sp.Ma_San_Pham) LIKE LOWER(?) OR LOWER(sp.Ten_San_Pham) LIKE LOWER(?) "
+                + "OR LOWER(sp.Mo_Ta) LIKE LOWER(?) OR sp.So_Luong_Ton LIKE ? "
+                + "OR sp.Ngay_Tao LIKE ? OR sp.Gia_Nhap LIKE ? OR sp.Gia_Ban LIKE ?)";  
 
-        try ( Connection con = Dbconnect.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, "%" + keyword + "%");
-            try ( ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    list.add(new SanPhamModel(
-                            rs.getInt("ID_San_Pham"),
-                            rs.getString("Ma_San_Pham"),
-                            rs.getString("Ten_San_Pham"),
-                            rs.getInt("So_Luong_Ton"),
-                            rs.getString("Mo_Ta"),
-                            rs.getDate("Ngay_Tao"),
-                            rs.getBigDecimal("Gia_Nhap"),
-                            rs.getBigDecimal("Gia_Ban"),
-                            rs.getBoolean("Trang_Thai"),
-                            rs.getString("Ten_Mau_Sac"),
-                            rs.getString("Ten_Kich_Thuoc"),
-                            rs.getString("Ten_Chat_Lieu"),
-                            rs.getString("Ten_Xuat_Xu"),
-                            rs.getString("Ten_Thuong_Hieu")
-                    ));
-                }
+    try (Connection con = Dbconnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+ 
+        ps.setString(1, "%" + keyword + "%"); 
+        ps.setString(2, "%" + keyword + "%");  
+        ps.setString(3, "%" + keyword + "%"); 
+        ps.setString(4, "%" + keyword + "%");  
+        ps.setString(5, "%" + keyword + "%");  
+        ps.setString(6, "%" + keyword + "%");  
+        ps.setString(7, "%" + keyword + "%");  
+
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                list.add(new SanPhamModel(
+                        rs.getInt("ID_San_Pham"),
+                        rs.getString("Ma_San_Pham"),
+                        rs.getString("Ten_San_Pham"),
+                        rs.getInt("So_Luong_Ton"),
+                        rs.getString("Mo_Ta"),
+                        rs.getDate("Ngay_Tao"),
+                        rs.getBigDecimal("Gia_Nhap"),
+                        rs.getBigDecimal("Gia_Ban"),
+                        rs.getBoolean("Trang_Thai"),
+                        rs.getString("Ten_Mau_Sac"),
+                        rs.getString("Ten_Kich_Thuoc"),
+                        rs.getString("Ten_Chat_Lieu"),
+                        rs.getString("Ten_Xuat_Xu"),
+                        rs.getString("Ten_Thuong_Hieu")
+                ));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return list;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    return list;
+}
 
-    // tim sp ngung bán
+
     // Tìm kiếm sản phẩm
     public List<SanPhamModel> searchSanPhamNgung(String keyword) {
         List<SanPhamModel> list = new ArrayList<>();
-        String sql = "SELECT sp.ID_San_Pham, sp.Ma_San_Pham, sp.Ten_San_Pham, sp.So_Luong_Ton, "
+    
+    String sql = "SELECT sp.ID_San_Pham, sp.Ma_San_Pham, sp.Ten_San_Pham, sp.So_Luong_Ton, "
                 + "sp.Mo_Ta, sp.Ngay_Tao, sp.Gia_Nhap, sp.Gia_Ban, sp.Trang_Thai, "
                 + "ms.Ten_Mau_Sac, kt.Ten_Kich_Thuoc, cl.Ten_Chat_Lieu, xx.Ten_Xuat_Xu, th.Ten_Thuong_Hieu "
                 + "FROM San_Pham sp "
@@ -141,30 +153,40 @@ public class SanPhamRepo {
                 + "LEFT JOIN Chat_Lieu cl ON sp.ID_Chat_Lieu = cl.ID_Chat_Lieu "
                 + "LEFT JOIN Xuat_Xu xx ON sp.ID_Xuat_Xu = xx.ID_Xuat_Xu "
                 + "LEFT JOIN Thuong_Hieu th ON sp.ID_Thuong_Hieu = th.ID_Thuong_Hieu "
-                + "WHERE sp.Trang_Thai = 0 AND LOWER(sp.Ten_San_Pham) LIKE LOWER(?)";
+                + "WHERE sp.Trang_Thai = 0 AND (LOWER(sp.Ma_San_Pham) LIKE LOWER(?) OR LOWER(sp.Ten_San_Pham) LIKE LOWER(?) "
+                + "OR LOWER(sp.Mo_Ta) LIKE LOWER(?) OR sp.So_Luong_Ton LIKE ? "
+                + "OR sp.Ngay_Tao LIKE ? OR sp.Gia_Nhap LIKE ? OR sp.Gia_Ban LIKE ?)";  
 
-        try ( Connection con = Dbconnect.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, "%" + keyword + "%");
-            try ( ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    list.add(new SanPhamModel(
-                            rs.getInt("ID_San_Pham"),
-                            rs.getString("Ma_San_Pham"),
-                            rs.getString("Ten_San_Pham"),
-                            rs.getInt("So_Luong_Ton"),
-                            rs.getString("Mo_Ta"),
-                            rs.getDate("Ngay_Tao"),
-                            rs.getBigDecimal("Gia_Nhap"),
-                            rs.getBigDecimal("Gia_Ban"),
-                            rs.getBoolean("Trang_Thai"),
-                            rs.getString("Ten_Mau_Sac"),
-                            rs.getString("Ten_Kich_Thuoc"),
-                            rs.getString("Ten_Chat_Lieu"),
-                            rs.getString("Ten_Xuat_Xu"),
-                            rs.getString("Ten_Thuong_Hieu")
-                    ));
-                }
+    try (Connection con = Dbconnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+ 
+        ps.setString(1, "%" + keyword + "%"); 
+        ps.setString(2, "%" + keyword + "%");  
+        ps.setString(3, "%" + keyword + "%"); 
+        ps.setString(4, "%" + keyword + "%");  
+        ps.setString(5, "%" + keyword + "%");  
+        ps.setString(6, "%" + keyword + "%");  
+        ps.setString(7, "%" + keyword + "%");  
+
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                list.add(new SanPhamModel(
+                        rs.getInt("ID_San_Pham"),
+                        rs.getString("Ma_San_Pham"),
+                        rs.getString("Ten_San_Pham"),
+                        rs.getInt("So_Luong_Ton"),
+                        rs.getString("Mo_Ta"),
+                        rs.getDate("Ngay_Tao"),
+                        rs.getBigDecimal("Gia_Nhap"),
+                        rs.getBigDecimal("Gia_Ban"),
+                        rs.getBoolean("Trang_Thai"),
+                        rs.getString("Ten_Mau_Sac"),
+                        rs.getString("Ten_Kich_Thuoc"),
+                        rs.getString("Ten_Chat_Lieu"),
+                        rs.getString("Ten_Xuat_Xu"),
+                        rs.getString("Ten_Thuong_Hieu")
+                ));
             }
+        }
         } catch (Exception e) {
             e.printStackTrace();
         }

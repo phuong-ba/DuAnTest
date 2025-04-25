@@ -24,7 +24,8 @@ public class HoaDonRepo {
     FROM Hoa_Don hd
     LEFT JOIN Nhan_Vien nv ON hd.ID_Nhan_Vien = nv.ID_Nhan_Vien
     LEFT JOIN Khach_Hang kh ON hd.ID_Khach_Hang = kh.ID_Khach_Hang
-    LEFT JOIN Phuong_Thuc_Thanh_Toan pt ON hd.ID_Thanh_Toan = pt.ID_Thanh_Toan;
+    LEFT JOIN Phuong_Thuc_Thanh_Toan pt ON hd.ID_Thanh_Toan = pt.ID_Thanh_Toan
+    WHERE hd.Trang_Thai = 1
 """;
         try ( Connection conn = Dbconnect.getConnection();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
 
@@ -86,52 +87,47 @@ public class HoaDonRepo {
     }
 
     // Tìm kiếm hóa đơn
-    public List<HoaDonModel> timKiem(String keyword) {
-        List<HoaDonModel> list = new ArrayList<>();
-        String sql = """
-            SELECT * FROM HoaDon WHERE
-                LOWER(Ma_Hoa_Don) LIKE LOWER(?) OR
-                LOWER(SDT) LIKE LOWER(?) OR
-                LOWER(Dia_Chi) LIKE LOWER(?) OR
-                FORMAT(Ngay_Tao, 'yyyy-MM-dd') LIKE ? OR
-                FORMAT(Ngay_Thanh_Toan, 'yyyy-MM-dd') LIKE ? OR
-                CAST(Thanh_Tien AS VARCHAR) LIKE ? OR
-                LOWER(Hinh_Thuc_Thanh_Toan) LIKE LOWER(?) OR
-                LOWER(Trang_Thai) LIKE LOWER(?) OR
-                LOWER(ID_Khach_Hang) LIKE LOWER(?) OR
-                LOWER(ID_Nhan_Vien) LIKE LOWER(?) OR
-                LOWER(ID_Thanh_Toan) LIKE LOWER(?);
-        """;
+ public List<HoaDonModel> timHoaDon(String keyword) {
+    List<HoaDonModel> list = new ArrayList<>();
+    String sql = "SELECT hd.ID_Hoa_Don, hd.Ma_Hoa_Don, hd.Ngay_Thanh_Toan, "
+            + "hd.Trang_Thai, hd.Thanh_Tien, "
+            + "kh.Ma_Khach_Hang, nv.Ma_Nhan_Vien, pt.Loai_Thanh_Toan "
+            + "FROM Hoa_Don hd "
+            + "LEFT JOIN Khach_Hang kh ON hd.ID_Khach_Hang = kh.ID_Khach_Hang "
+            + "LEFT JOIN Nhan_Vien nv ON hd.ID_Nhan_Vien = nv.ID_Nhan_Vien "
+            + "LEFT JOIN Phuong_Thuc_Thanh_Toan pt ON hd.ID_Thanh_Toan = pt.ID_Thanh_Toan "
+            + "WHERE hd.Trang_Thai = 1 AND (LOWER(hd.Ma_Hoa_Don) LIKE LOWER(?) OR "
+            + "FORMAT(hd.Ngay_Thanh_Toan, 'yyyy-MM-dd') LIKE ? OR "
+            + "CAST(hd.Thanh_Tien AS VARCHAR) LIKE ?)";
+    
+    try (Connection con = Dbconnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setString(1, "%" + keyword + "%");
+        ps.setString(2, "%" + keyword + "%");
+        ps.setString(3, "%" + keyword + "%");
 
-        try ( Connection conn = Dbconnect.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            String searchKeyword = "%" + keyword + "%";
-            for (int i = 1; i <= 8; i++) {
-                ps.setString(i, searchKeyword);
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                list.add(new HoaDonModel(
+                        rs.getInt("ID_Hoa_Don"),
+                        rs.getString("Ma_Hoa_Don"),
+                        rs.getDate("Ngay_Thanh_Toan"),
+                        rs.getBigDecimal("Thanh_Tien"),
+                        rs.getBoolean("Trang_Thai"),  
+                        rs.getString("Ma_Nhan_Vien"),
+                        rs.getString("Ma_Khach_Hang"),
+                        rs.getString("Loai_Thanh_Toan")
+                        
+                ));
             }
-
-            try ( ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    HoaDonModel hd = new HoaDonModel();
-                    hd.setIdHoaDon(rs.getInt("ID_Hoa_Don"));
-                    hd.setMaHoaDon(rs.getString("Ma_Hoa_Don"));
-                    hd.setNgayTao(rs.getDate("NgayTao"));
-                    hd.setNgayThanhToan(rs.getDate("NgayThanhToan"));
-                    hd.setTongGia(rs.getBigDecimal("TongGia"));
-                    hd.setSdt(rs.getString("SDT"));
-                    hd.setDiaChi(rs.getString("DiaChi"));
-                    hd.setTrangThai(rs.getBoolean("TrangThai"));
-                    hd.setIdKhachHang(rs.getInt("ID_Khach_Hang"));
-                    hd.setIdNhanVien(rs.getInt("ID_Nhan_Vien"));
-                    hd.setIdPhuongThucThanhToan(rs.getInt("ID_Phuong_Thuc_Thanh_Toan"));
-                    list.add(hd);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return list;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    return list;
+}
+
+
+
 
     // Thống kê doanh thu theo năm
     public List<HoaDonModel> getHoaDonByYear(String year) {
@@ -308,6 +304,17 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)
             ps.setInt(7, hd.getIdNhanVien());
             ps.setInt(8, hd.getIdThanhToan());
             ps.setString(9, hd.getMaHoaDon());
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public Boolean deleteHD(String maHD) {
+        String sql = "delete from Hoa_Don where Ma_Hoa_Don=? and Trang_Thai=0";
+        try ( Connection con = Dbconnect.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, maHD);
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();

@@ -33,6 +33,20 @@ public class HoaDonModel {
     public HoaDonModel() {
     }
 
+    public HoaDonModel(int idHoaDon, String maHoaDon, Date ngayThanhToan, BigDecimal thanhTien, Boolean trangThai, String maNhanVien, String maKhachHang, String loaiThanhToan) {
+        this.idHoaDon = idHoaDon;
+        this.maHoaDon = maHoaDon;
+        this.ngayThanhToan = ngayThanhToan;
+        this.thanhTien = thanhTien;
+        this.trangThai = trangThai;
+        this.maNhanVien = maNhanVien;
+        this.maKhachHang = maKhachHang;
+        this.loaiThanhToan = loaiThanhToan;
+    }
+
+   
+    
+
     public HoaDonModel(String maHoaDon, Date ngayThanhToan, BigDecimal tongGia, BigDecimal thanhTien, String sdt, String diaChi, Boolean trangThai, int idKhachHang, int idNhanVien, int idThanhToan) {
         this.maHoaDon = maHoaDon;
         this.ngayThanhToan = ngayThanhToan;
